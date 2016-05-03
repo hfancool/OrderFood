@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
+    <title>基本的页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<!-- 第二个页面 当管理员点击我的信息的时候的第二个页面-->
+<div data-role="page">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <h1 style="font-style: italic;font-weight: bold;">我&nbsp;的&nbsp;信&nbsp;息</h1>
+    </div>
+    <!-- 内容部分 -->
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true">
+            <!-- 我的基本信息 -->
+            <li>
+                <a href="javascript:;">
+                    <img width="80px" height="80px" alt="" src="__PUBLIC__/img/1.jpg"/>
+                    <h7>魏家凉皮</h7>
+                    <p>
+                        地址：mmmmmmmmmm
+                    </p>
+                </a>
+            </li>
+            <li data-role="list-divider"></li>
+            <!-- 我的菜单 -->
+            <li>
+                <a href="../Menu/index" style="font-weight: normal;">菜单管理</a>
+            </li>
+            <li>
+                <a href="#PayManage" style="font-weight: normal;">支付管理</a>
+            </li>
+            <li>
+                <a href="#HotSale" style="font-weight: normal;">热&nbsp;销&nbsp;榜</a>
+            </li>
+            <li>
+                <a href="#HumenManage" style="font-weight: normal;">人员管理</a>
+            </li>
+
+            <li data-role="list-divider"></li>
+            <!-- 退出登录 -->
+            <li>
+                <a href="javascript:;" data-role="button" style="font-size: 15px;">退出登录</a>
+            </li>
+        </ul>
+    </div>
+    <!-- 页脚部分 -->
+    <div data-role="footer" data-theme="e" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="javascript:admin_news();" data-icon="home"  class="newfoods">当前订单</a></li>
+                <li><a href="javascript:;" data-icon="info" class="ui-btn-active myinfo">我的信息</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

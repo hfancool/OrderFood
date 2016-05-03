@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
+    <title>基本的页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<!-- 菜单管理页面 -->
+<div data-role="page" id="MenuManage">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:window.history.go(-1);" data-role="button" class="ui-btn-left ui-btn-corners">Back</a>
+                </li>
+            </ul>
+        </div>
+        <h1 style="font-style: italic;font-weight: bold;">菜&nbsp;单&nbsp;管&nbsp;理</h1>
+    </div>
+    <!-- 内容部分 -->
+    <div data-role="content">
+
+    </div>
+    <!-- 尾部,添加菜单 -->
+    <div data-role="footer" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="__MODULE__/Menu/add_menu" data-role="button" data-iconpos="notext" data-icon="plus" style="font-size: 15px;"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
