@@ -19,6 +19,8 @@ define('APP_DEBUG',True);
 
 // 定义应用目录
 define('APP_PATH','./Eatery/');
+//定义用户上传文件的位置
+define('UPLOAD_PATH','./Uploads/');
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';

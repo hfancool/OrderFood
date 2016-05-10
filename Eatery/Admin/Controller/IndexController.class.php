@@ -47,6 +47,18 @@ class IndexController extends Controller {
         Help::checkLogin();
 
     }
+
+    /**
+     * 用户登出
+     */
+    public function logout(){
+        Help::checkLogin();
+        if(session_destroy()){
+            header("Location:./index");
+        }
+    }
+
+
     public function test(){
         header("Content-type:text/html;charset=utf-8");
         echo Memcached::get("username");exit;

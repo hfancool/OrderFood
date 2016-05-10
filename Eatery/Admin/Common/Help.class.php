@@ -29,7 +29,7 @@ class Help{
 
         if(!isset($_SESSION["userId"]) || !isset($_SESSION["username"])){
             $login = C("ip_address")."/Admin/Index/index";
-            header("Location:".$login);exit;
+            header("Location:".$login."refresh:0");exit;
 //            echo "<script type='text/javascript'>window.location.href='".$login."'</script>";
 //            echo "<script language='JavaScript' type='text/javascript'>";
 //            echo  "window.location.href='".$login."'";

@@ -17,4 +17,5 @@ return array(
         "host" => "localhost",
         "port" => 11211,
     ),
+    "UPLOAD_PATH" => UPLOAD_PATH,
 );
