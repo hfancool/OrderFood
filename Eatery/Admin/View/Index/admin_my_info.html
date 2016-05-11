@@ -24,16 +24,16 @@
             <li>
                 <a href="javascript:;">
                     <img width="80px" height="80px" alt="" src="__PUBLIC__/img/1.jpg"/>
-                    <h7>魏家凉皮</h7>
-                    <p>
-                        地址：mmmmmmmmmm
+                    <h7>{$my_info.storename}</h7>
+                    <p title="{$my_info.address}">
+                        地址：{$my_info.address}
                     </p>
                 </a>
             </li>
             <li data-role="list-divider"></li>
             <!-- 我的菜单 -->
             <li>
-                <a href="../Menu/index" style="font-weight: normal;">菜单管理</a>
+                <a href="../Menu/index" style="font-weight: normal;" data-ajax="false">菜单管理</a>
             </li>
             <li>
                 <a href="#PayManage" style="font-weight: normal;">支付管理</a>

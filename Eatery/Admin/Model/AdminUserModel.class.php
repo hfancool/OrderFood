@@ -28,4 +28,17 @@ class AdminUserModel extends Model{
         }
     }
 
+    /**
+     * 获取商家信息
+     * @return bool|mixed
+     */
+    public function my_info(){
+        $sql = "SELECT storename,address FROM ".$this->getTableName()." WHERE id=".intval(session('userId'));
+        $res=$this->query($sql);
+        if(isset($res)){
+            return $res[0];
+        }
+        return false;
+    }
+
 }

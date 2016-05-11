@@ -49,6 +49,19 @@ class IndexController extends Controller {
     }
 
     /**
+     * 商家查看我的信息时加载的数据
+     */
+    public function admin_my_info(){
+        Help::checkLogin();/*检测登录*/
+        $handle = new AdminUserModel();
+        if(!$my_info=$handle->my_info()){
+            return;
+        }
+        $this->assign('my_info',$my_info);
+        $this->display('admin_my_info');
+    }
+
+    /**
      * 用户登出
      */
     public function logout(){
