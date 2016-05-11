@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
+    <title>当前点餐</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<!-- 菜单管理页面 -->
+<div data-role="page" id="Menu">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <h1 style="font-style: italic;font-weight: bold;">菜&nbsp;单&nbsp;管&nbsp;理</h1>
+    </div>
+    <!-- 内容部分 -->
+    <div data-role="content">
+        <ul data-role="listview" data-inset="true">
+            <volist name="menu_list" id="vo" >
+                <li>
+                    <a href="./editMenu?menu_id={$vo.menu_id}" data-ajax="false">
+                        <img width="80px" height="80px" alt="" src="__ROOT__/{$vo.image}"/>
+                        <h7>{$vo.name}</h7>
+                        <h7>单价:{$vo.price}元/份</h7>
+                        <p>{$vo.desc}</p>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    <!-- 尾部,添加菜单 -->
+    <div data-role="footer" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="#" data-role="button" data-iconpos="notext" data-ajax="false" data-icon="plus" style="font-size: 15px;"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

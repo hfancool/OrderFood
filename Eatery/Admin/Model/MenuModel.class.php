@@ -23,6 +23,17 @@ class MenuModel extends Model{
         return empty($res) ? false : $res;
     }
     /**
+     * 通过aid获取菜单列表
+     */
+    public function getMenuListByAid($aid){
+        $condition["parent_id"] = $aid;
+        $res=$this -> where($condition) ->select();
+        for($i=0;$i<count($res);$i++){
+            $res[$i]['image'] = "Uploads/".$res[$i]["image"];
+        }
+        return empty($res) ? false : $res;
+    }
+    /**
      * 将上传的菜单保存到数据库中
      * @param $data
      */

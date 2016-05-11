@@ -4,6 +4,8 @@ use Admin\Common\Help;
 use Admin\Model\AdminUserModel;
 use Common\Common\Memcached;
 use Think\Controller;
+use Think\Model;
+
 class IndexController extends Controller {
 	/**
 	 * @deprecated 店家登录的首页面
@@ -71,7 +73,37 @@ class IndexController extends Controller {
         }
     }
 
+    /**
+     * 将商家的信息进行加密并生成惟一的值
+     */
+    public function make_url(){
+        Help::checkLogin();
+        $condition['id'] = intval(session('userId'));
+        $user = new AdminUserModel();
+        $res = $user->field('storename','secrate','secrate')->where($condition)->select();
+        $value = implode("&",$res[0]);
+        if(empty($res[0]['secrate'])){
+            $secrate = Help::secrate($value);
+            $data['secrate'] = $secrate['secrateKey'];
+            $user->where($condition)->save($data);
+        }else{
+            $secrate = Help::secrate($value,$res[0]['secrate']);
+        }
+        $sql = "INSERT INTO think_mapping (ssid,aid) VALUES ('".$secrate['secrateVal']."' , ".intval(session('userId'))." )";
+        if(M()->query($sql)){
+            echo 'success';
+        }
+        echo 'fail';
+    }
 
+    /**
+     * 二维码在线生成
+     */
+    public function tcode(){
+        $tcode_url = $_SERVER['REQUEST_SCHEME']."//".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']."?ssid=";
+        Help::tcode($tcode_url);
+//        var_dump($_SERVER);
+    }
     public function test(){
         header("Content-type:text/html;charset=utf-8");
         echo Memcached::get("username");exit;

@@ -51,14 +51,27 @@ class Help{
 
     /**
      * 对用户的登录密码进行加密
-     * @param $pwd              用户密码
-     * @param string $secrate   加密字段
+     * @param $value               用户密码
+     * @param string $secrateKey    加密字段
      * @return string           返回加密后的字符串
      */
-    public static function secrate ($pwd,$secrate=""){
-        $secrate = empty($secrate) ? self::getRandsecrate() : $secrate;
-        $secratePWD= md5(sprintf("%s@%s@%s",$secrate,$pwd,$secrate));
-        return ["secrate"=>$secrate,"secratePWD"=>$secratePWD];
+    public static function secrate ($value,$secrateKey=""){
+        $secrateKey = empty($secrateKey) ? self::getRandsecrate() : $secrateKey;
+        $secrateVal = md5(sprintf("%s@%s@%s",$secrateKey,$value,$secrateKey));
+        return ["secrateKey"=>$secrateKey,"secrateVal"=>$secrateVal];
+    }
+    /**
+     * 二维码在线生成
+     */
+    public static function tcode($tcode_url){
+        $url = "http://qr.liantu.com/api.php?text=".$tcode_url;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        header("Content-Type:image/jpg");
+        echo $output;
     }
 
 }
