@@ -1,5 +1,7 @@
 <?php
 namespace Admin\Common;
+use Admin\Model\AdminUserModel;
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -63,15 +65,45 @@ class Help{
     /**
      * 二维码在线生成
      */
-    public static function tcode($tcode_url){
+    public static function tcode($aid){
+
+        if(empty($aid)){
+           return false;
+        }
+        /*根据用户传递过来的aid查找*/
+        $sql = "SELECT ssid FROM think_mapping WHERE aid = ".intval($aid);
+        $res = M()->query($sql);
+        $ssid = $res[0]['ssid'];
+
+        $tcode_url = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']."?ssid=".$ssid;
         $url = "http://qr.liantu.com/api.php?text=".$tcode_url;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
-        header("Content-Type:image/jpg");
-        echo $output;
+        if(empty($output)){
+           return false;
+        }
+        /*如果生成二维码成功则将该生成的二维码保存到文件中*/
+        $tcode_path = C("tcode_path");
+        if(!is_dir($tcode_path)){
+            mkdir($tcode_path,0777,true);
+        }
+        $tcode = $tcode_path.md5(time()).'.jpg';
+
+        if(file_put_contents($tcode,$output)){
+            /*将二维码图片插入到数据库中*/
+            $admin = new AdminUserModel();
+            $condition['id'] = intval($aid);
+            $data['tdcode'] = $tcode;
+            $res = $admin -> where($condition)->save($data);
+            if($res){
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
 }

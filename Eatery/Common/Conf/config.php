@@ -18,4 +18,5 @@ return array(
         "port" => 11211,
     ),
     "UPLOAD_PATH" => UPLOAD_PATH,
+    'tcode_path' => 'Public/Admin/tcode/',/*商家二维码存放路劲*/
 );

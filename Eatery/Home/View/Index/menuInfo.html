@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <link rel=stylesheet href='__PUBLIC__/css/global.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/order.js"></script>
+    <title>菜单修改</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div data-role="page" id="menu_edit">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:window.history.back();" data-role="button" data-ajax="false" class="ui-btn-left ui-btn-corners">Back</a>
+                </li>
+            </ul>
+        </div>
+        <h1 style="font-style: italic;font-weight: bold;">{$menu_info.name}</h1>
+    </div>
+    <!--内容部分-->
+
+    <div data-role="content">
+        <form enctype="multipart/form-data" method="post" data-ajax="false">
+            <div class="ui-field-contain">
+                <label for="menuname">菜名：</label>
+                <input id="menuname" readonly="true" type="text" value="{$menu_info.name}" name="menuname" placeholder="请输入菜名">
+            </div>
+            <div class="ui-field-contain">
+                <label for="price">单价：</label>
+                <input style="border: none" id="price" readonly="true" type="text" value="{$menu_info.price}" name="price" placeholder="请输入单价">
+            </div>
+            <div class="ui-field-contain">
+                <label for="total_pay">总价：</label>
+                <input style="border: none" id="total_pay" readonly="true" type="text" value="{$menu_info.price}" name="price" placeholder="请输入单价">
+            </div>
+            <div class="ui-field-contain">
+                <div data-role="fieldcontain">
+                    <label for="points">数量:</label>
+                    <input type="range" name="points" id="points" value="1" min="0" max="50">
+                </div>
+            </div>
+            <div class="ui-field-contain">
+                <label for="desc">描述：</label>
+                <input id="desc" readonly="true" type="text" value="{$menu_info.desc}" name="desc" placeholder="请对要添加的菜进行描述">
+            </div>
+            <div class="ui-field-contain">
+                <label for="image">菜单图片：</label>
+                <img id="image" style="width: 100%" src="__ROOT__/Uploads/{$menu_info.image}">
+            </div>
+            <div class="ui-field-contain" id="button">
+                <input  type="submit" value="添加到购物车" style="background-color: black;">
+            </div>
+        </form>
+    </div>
+</div>
+</body>

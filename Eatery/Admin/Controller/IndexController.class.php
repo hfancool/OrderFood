@@ -47,7 +47,6 @@ class IndexController extends Controller {
      */
     public function show_order(){
         Help::checkLogin();
-
     }
 
     /**
@@ -100,22 +99,28 @@ class IndexController extends Controller {
      * 二维码在线生成
      */
     public function tcode(){
-        $tcode_url = $_SERVER['REQUEST_SCHEME']."//".$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME']."?ssid=";
-        Help::tcode($tcode_url);
-//        var_dump($_SERVER);
-    }
-    public function test(){
-        header("Content-type:text/html;charset=utf-8");
-        echo Memcached::get("username");exit;
-        if(Memcached::set("username","fanhang")){
-           echo "success" ;
-        }else{
-            echo "error";
+        $aid = intval(session('userId'));
+        if(Help::tcode($aid)){
+            return true;
         }
-//        if(Memcached::set("username","范航")){
-//            echo "success";
-//        }else{
-//            echo "error";
-//        }
+        return false;
+    }
+    /**
+     * 商家二维码显示
+     */
+    public function show_tcode(){
+        Help::checkLogin();
+        $admin = new AdminUserModel();
+        $condition['id'] = intval(session('userId'));
+        $tcode = $admin->where($condition)->getField('tdcode');
+        if(!$tcode){
+            if($this->tcode()){
+                $tcode = $admin->where($condition)->getField('tdcode');
+            }else{
+                echo 'fail';
+            }
+        }
+        $this->assign('tcode',$tcode);
+        $this->display('tcode');
     }
 }
