@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <link rel=stylesheet href='__PUBLIC__/css/global.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/order.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
+    <title>菜单修改</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <div data-role="dialog">
+        <div data-role="header" data-theme="f">
+            <h1>我的购物车</h1>
+            <a href="javascript:clean_category();" data-rel="dialog"  data-role="button" data-ajax="false" class="ui-btn-right ui-btn-corners" >清空</a>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview" data-inset="true">
+                <volist name="my_order" id="vo" >
+                <li>
+                    <a href="#" data-ajax="false">
+                        <img width="80px" height="80px" alt="" src="{$vo.image}"/>
+                        <h7>{$vo.menuname}</h7>
+                        <h7>单价:{$vo.price}元/份</h7>
+                        <p  style="display: block;margin-top:12px;">已点{$vo.num}份 &nbsp;&nbsp;总价:{$vo.total_pay}元</p>
+                    </a>
+                    <a data-icon="minus" href="javascript:remove_category({$vo.menu_id},{$vo.num});"></a>
+                </li>
+                </volist>
+            </ul>
+        </div>
+        <!-- 尾部,清空购物车 -->
+        <div data-role="footer" data-theme="a" data-position='fixed' data-fullscreen="true">
+            <div data-role="navbar">
+                <ul>
+                    <li><a id="buy" href="javascript:order();" data-role="button"  data-ajax="false" style="font-size: 14px;">去下单</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>

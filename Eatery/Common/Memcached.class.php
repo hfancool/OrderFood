@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\Common;
+namespace Common;
 class Memcached{
     private static $conn='';
 
@@ -53,7 +53,19 @@ class Memcached{
         if(!self::$conn){
             self::init();
         }
-        if(self::$conn -> delete()){
+        if(self::$conn -> delete($key)){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 增加字段
+     */
+    public static function append($key,$val){
+        if(!self::$conn){
+            self::init();
+        }
+        if(self::$conn -> append($key,$val)){
             return true;
         }
         return false;

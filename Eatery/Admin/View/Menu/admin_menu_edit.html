@@ -40,8 +40,14 @@
                     <input id="desc" readonly="true" type="text" value="{$menu_info.desc}" name="desc" placeholder="请对要添加的菜进行描述">
                 </div>
                 <div class="ui-field-contain">
-                    <label for="image">菜单图片：</label>
-                    <img id="image" style="width: 100%" src="__ROOT__/Uploads/{$menu_info.image}">
+                    <label for="showimage">菜单图片：</label>
+                    <a href="javascript:;" class="file " style="display: none">
+                        <span class="fileerrorTip"></span>
+                        <span class="showFileName">请选择菜单图片</span>
+                        <input id="image" value="浏览" type="file" name="image">
+                    </a>
+                    <br>
+                    <img id="showimage" style="width: 100%" src="__ROOT__/Uploads/{$menu_info.image}">
                 </div>
                 <div class="ui-field-contain" id="button">
                     <div style="display: block"  id="btn_edit">

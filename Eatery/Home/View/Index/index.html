@@ -13,10 +13,11 @@
 <body>
 
 <!-- 菜单管理页面 -->
-<div data-role="page" id="Menu">
+<div data-role="page" id="Menu" data-fullscreen="true">
     <!-- 头信息 -->
     <div data-role="header">
         <h1 style="font-style: italic;font-weight: bold;">{$storename}</h1>
+        <a href="./index.php/Home/Index/check_category" data-rel="dialog"  data-role="button" data-ajax="false" class="ui-btn-right ui-btn-corners" data-iconpos="notext" data-icon="grid">购物车</a>
     </div>
     <!-- 内容部分 -->
     <div data-role="content">
@@ -34,16 +35,7 @@
         </ul>
     </div>
     <!-- 尾部,添加菜单 -->
-    <div data-role="footer" data-position="fixed" data-fullscreen="true">
-        <div data-role="navbar">
-            <ul>
-                <li>
-                    <!--<a href="#" data-role="button" data-iconpos="notext" data-ajax="false" data-icon="check" style="font-size: 15px;"></a>-->
-                    <a href="#" data-role="button" data-ajax="false" style="font-size: 15px;">去&nbsp;下&nbsp;单</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div data-role="footer" data-position="fixed" style="display: none" data-fullscreen="true"></div>
 </div>
 </body>
 </html>

@@ -7,37 +7,35 @@
     <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
     <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
     <script type="text/javascript" src="__PUBLIC__/js/home/order.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
     <title>菜单修改</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <body>
 <div data-role="page" id="menu_edit">
     <!-- 头信息 -->
     <div data-role="header">
-        <div data-role="navbar">
-            <ul>
-                <li>
-                    <a href="javascript:window.history.back();" data-role="button" data-ajax="false" class="ui-btn-left ui-btn-corners">Back</a>
-                </li>
-            </ul>
-        </div>
+        <a href="javascript:window.history.back();" data-role="button" data-ajax="false" class="ui-btn-left ui-btn-corners">Back</a>
+        <a href="./check_category" data-rel="dialog"  data-role="button" data-ajax="false" class="ui-btn-right ui-btn-corners" data-iconpos="notext" data-icon="grid">购物车</a>
         <h1 style="font-style: italic;font-weight: bold;">{$menu_info.name}</h1>
     </div>
     <!--内容部分-->
 
     <div data-role="content">
-        <form enctype="multipart/form-data" method="post" data-ajax="false">
+        <form enctype="multipart/form-data" action="javascript:category();" method="post" data-ajax="false">
             <div class="ui-field-contain">
                 <label for="menuname">菜名：</label>
-                <input id="menuname" readonly="true" type="text" value="{$menu_info.name}" name="menuname" placeholder="请输入菜名">
+                <input type="hidden" id="menu_id" name="menu_id" value="{$menu_info.menu_id}">
+                <input id="menuname" readonly="true" type="text" value="{$menu_info.name}" name="menuname" >
             </div>
             <div class="ui-field-contain">
                 <label for="price">单价：</label>
-                <input style="border: none" id="price" readonly="true" type="text" value="{$menu_info.price}" name="price" placeholder="请输入单价">
+                <input style="border: none" id="price" readonly="true" type="text" value="{$menu_info.price}" name="price" >
             </div>
             <div class="ui-field-contain">
                 <label for="total_pay">总价：</label>
-                <input style="border: none" id="total_pay" readonly="true" type="text" value="{$menu_info.price}" name="price" placeholder="请输入单价">
+                <input style="border: none" id="total_pay" readonly="true" type="text" value="{$menu_info.price}" name="total_pay">
             </div>
             <div class="ui-field-contain">
                 <div data-role="fieldcontain">
@@ -53,10 +51,19 @@
                 <label for="image">菜单图片：</label>
                 <img id="image" style="width: 100%" src="__ROOT__/Uploads/{$menu_info.image}">
             </div>
-            <div class="ui-field-contain" id="button">
-                <input  type="submit" value="添加到购物车" style="background-color: black;">
-            </div>
+            <!--<div class="ui-field-contain" id="button">-->
+                <!--<input  type="submit" id="category" value="添加到购物车" style="background-color: black;">-->
+                <!--<input  type="button" id="buy" value="购买" style="background-color: black;">-->
+            <!--</div>-->
         </form>
+    </div>
+    <div data-role="footer" data-theme="a" data-position='fixed' data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li><a id="category" href="javascript:;" data-role="button"  data-ajax="false" style="font-size: 14px;">添加到购物车</a></li>
+                <li><a id="buy" href="javascript:;" data-role="button"  data-ajax="false" style="font-size: 14px;">去下单</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>

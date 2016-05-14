@@ -14,7 +14,7 @@ return array(
 
     /*memcached 配置文件*/
     "memcached" =>array(
-        "host" => "localhost",
+        "host" => "127.0.0.1",
         "port" => 11211,
     ),
     "UPLOAD_PATH" => UPLOAD_PATH,

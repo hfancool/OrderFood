@@ -22,7 +22,7 @@
     opacity: 0;
 }
 .file:hover {
-    background: #AADFFD;
+    /*background: #AADFFD;*/
     border-color: #78C3F3;
     /*color: #004974;*/
     text-decoration: none;

@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 use Admin\Common\Help;
 use Admin\Model\AdminUserModel;
-use Common\Common\Memcached;
+use Common\Memcached;
 use Think\Controller;
 use Think\Model;
 
@@ -47,6 +47,13 @@ class IndexController extends Controller {
      */
     public function show_order(){
         Help::checkLogin();
+        /*获取当前商家的ssid*/
+        $sql = "SELECT ssid FROM think_mapping WHERE aid = ".intval(session('userId'));
+        $res = M()->query($sql);
+        $ssid = $res[0]['ssid'];
+        $order = Memcached::get($ssid);
+        var_dump($order);
+
     }
 
     /**
@@ -122,5 +129,11 @@ class IndexController extends Controller {
         }
         $this->assign('tcode',$tcode);
         $this->display('tcode');
+    }
+    public function test(){
+        var_dump(Memcached::get('name'));
+//        $mem = new \Memcache();
+//        $mem->connect('127.0.0.1',11211);
+//        $mem->set('name','fanhang');
     }
 }
