@@ -1,5 +1,7 @@
 /*点击菜单列表时触发事件*/
 $(function(){
+    var time = 10000;
+    window.setInterval('check_order()',time);
     /*文件上传框样式*/
     $(".file").on("change","input[type='file']",function(){
         var filePath=$(this).val();
@@ -46,4 +48,36 @@ function removeMenu(menu_id){
         });
     }
     return false;
+}
+/*检查当前的订单*/
+function check_order(){
+    $.get('./show_order', function (data) {
+        var html='';
+        $.each(data,function(key,val){
+                html += "<li class='ui-li-has-alt ui-first-child'>";
+                html += "<a href='javascript:;' class='ui-btn'>";
+                html += "<h7>订单号:"+key+"</h7>";
+                $.each(val,function(k,v){
+                    html += " <p>菜名："+v.menu_name+" 单价："+v.price+"元/份 数量："+v.num+"份</p>";
+                })
+                html += " </a>";
+                html += " <a data-icon='delete' href='javascript:complete_order("+key+");'  class='ui-btn ui-btn-icon-notext ui-icon-delete'></a>";
+                html += " </li>";
+        });
+        $('#order_list').html(html);
+    });
+}
+/*订单完成时点击删除订单时将memcached 中的数据删除*/
+function complete_order(order_id){
+    alert(order_id);
+    $.get('./complete_order',{'order_id':order_id},function(data){
+        alert(data.code);
+        if(data.code == 200){
+            message(data.code);
+            //TODO
+            /*在此处可以加入声音提示信息*/
+        }else{
+            message('订单删除失败');
+        }
+    });
 }

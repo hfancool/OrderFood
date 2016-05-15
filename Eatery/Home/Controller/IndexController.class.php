@@ -142,9 +142,12 @@ class IndexController extends Controller {
             );
             $order_info[$id][] = $temp;
         }
-        /*将组装好的数据存储到memcached中*/
-        $order_info = serialize($order_info);
+
         if(!Memcached::get($ssid)){
+            $order = array();
+            array_push($order,$order_info);
+            /*将组装好的数据存储到memcached中*/
+            $order_info = serialize($order);
             if(Memcached::set($ssid,$order_info)){
                 $data['code']  = '200';
                 $data['id']    = $id;
@@ -155,7 +158,11 @@ class IndexController extends Controller {
                 $this->ajaxReturn($data);
             }
         }else{
-            if(Memcached::append($ssid,$order_info)){
+            $temp =unserialize(Memcached::get($ssid));
+            $temp[] = $order_info;
+//            array_push($temp,$order_info);
+            $order_info = serialize($temp);
+            if(Memcached::set($ssid,$order_info)){
                 $data['code']  = '200';
                 $data['id']    = $id;
                 $data['message']    = "下单成功";

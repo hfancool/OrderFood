@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 use Admin\Common\Help;
 use Admin\Model\AdminUserModel;
+use Admin\Model\MenuModel;
 use Common\Memcached;
 use Think\Controller;
 use Think\Model;
@@ -28,7 +29,7 @@ class IndexController extends Controller {
             $this -> ajaxReturn($data);
         }else{
             $data["code"]=200;
-            $data["message"]="用户名或密码错误";
+            $data["message"]="登录成功";
             $this -> ajaxReturn($data);
         }
 
@@ -39,6 +40,8 @@ class IndexController extends Controller {
     public function admin_login_success(){
         /*检测用户是否登录*/
         Help::checkLogin();
+        $order_info = $this->show_order();
+        $this->assign('order',$order_info);
     	$this->display('admin_login_success');
     }
     /**
@@ -46,15 +49,59 @@ class IndexController extends Controller {
      * 从memcache快速缓存中获得用户的当前点餐
      */
     public function show_order(){
-        Help::checkLogin();
+//        Help::checkLogin();
+        $m = new MenuModel();
+        $menu = $m->getMenuList();
         /*获取当前商家的ssid*/
         $sql = "SELECT ssid FROM think_mapping WHERE aid = ".intval(session('userId'));
         $res = M()->query($sql);
         $ssid = $res[0]['ssid'];
-        $order = Memcached::get($ssid);
-        var_dump($order);
-
+        $order = unserialize(Memcached::get($ssid));
+        $order_info = array();
+        foreach($order as $key => $val){
+            foreach($val as $k => $v){
+                foreach($v as $i=>$id){
+                    /*遍历商家菜单，找到匹配的记录*/
+                    foreach($menu as $menu_key=>$menu_val){
+                        if($menu_val['menu_id'] == $id['menu_id']){
+                            $order_info[$k][] = array(
+                                'menu_id'  => $id['menu_id'],
+                                'menu_name'=> $menu_val['name'],
+                                'price'    => $menu_val['price'],
+                                'num'=>$id['num']);
+                        }
+                    }
+                }
+            }
+        }
+        if(IS_AJAX){
+            $this->ajaxReturn($order_info);
+        }else{
+            return $order_info;
+        }
     }
+    /**
+     * 订单完成后删除订单
+     */
+//    public function complete_order(){
+//        /*获得完成订单号*/
+//        $order_id = I('get.order_id',0,htmlspecialchars);
+//        $order_info = $this->show_order();
+//        reset($order_info);
+//        while(list($key,$val) = each($order_info)){
+//            if($key == $order_id){
+//                unset($order_info[$key]);
+//                break;
+//            }
+//        }
+//        if(IS_AJAX){
+//            $data['code'] = 200;
+//            $data['message'] = "订单删除成功";
+//            $this->ajaxReturn($data);
+//        }else{
+//            echo 'success';
+//        }
+//    }
 
     /**
      * 商家查看我的信息时加载的数据
@@ -84,9 +131,10 @@ class IndexController extends Controller {
      */
     public function make_url(){
         Help::checkLogin();
+        var_dump($_SESSION);
         $condition['id'] = intval(session('userId'));
         $user = new AdminUserModel();
-        $res = $user->field('storename','secrate','secrate')->where($condition)->select();
+        $res = $user->field('storename','secrate')->where($condition)->select();
         $value = implode("&",$res[0]);
         if(empty($res[0]['secrate'])){
             $secrate = Help::secrate($value);
