@@ -83,25 +83,31 @@ class IndexController extends Controller {
     /**
      * 订单完成后删除订单
      */
-//    public function complete_order(){
-//        /*获得完成订单号*/
-//        $order_id = I('get.order_id',0,htmlspecialchars);
-//        $order_info = $this->show_order();
-//        reset($order_info);
-//        while(list($key,$val) = each($order_info)){
-//            if($key == $order_id){
-//                unset($order_info[$key]);
-//                break;
-//            }
-//        }
-//        if(IS_AJAX){
-//            $data['code'] = 200;
-//            $data['message'] = "订单删除成功";
-//            $this->ajaxReturn($data);
-//        }else{
-//            echo 'success';
-//        }
-//    }
+    public function complete_order(){
+        /*获取当前商家的ssid*/
+        $sql = "SELECT ssid FROM think_mapping WHERE aid = ".intval(session('userId'));
+        $res = M()->query($sql);
+        $ssid = $res[0]['ssid'];
+        /*获得完成订单号*/
+        $order_id = I('get.order_id',0,htmlspecialchars);
+        $order = unserialize(Memcached::get($ssid));
+        reset($order);
+        while(list($key,$val) = each($order)){
+            if(key($val) == $order_id){
+                unset($order[$key]);
+                break;
+            }
+        }
+        $order_info = serialize($order);
+        if(Memcached::set($ssid,$order_info)){
+            $data['code']  = '200';
+            $data['message']    = "删除成功";
+            $this->ajaxReturn($data);
+        }else{
+            $data['code']  = '400';
+            $this->ajaxReturn($data);
+        }
+    }
 
     /**
      * 商家查看我的信息时加载的数据

@@ -181,7 +181,7 @@ class IndexController extends Controller {
     }
     public function get(){
         $ssid = cookie('menu_ssid');/*将ssid作为memcached中的key*/
-        var_dump(Memcached::get($ssid));
+        var_dump(unserialize(Memcached::get($ssid)));
     }
 
 }

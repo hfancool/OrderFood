@@ -68,14 +68,19 @@ function check_order(){
     });
 }
 /*订单完成时点击删除订单时将memcached 中的数据删除*/
-function complete_order(order_id){
-    alert(order_id);
+function complete_order(id){
+    var order_id = '';
+    if($('#order_id') != undefined && $('#order_id').attr('order_id') !=undefined){
+        order_id = $('#order_id').attr('order_id');
+    }else{
+        order_id = id;
+    }
     $.get('./complete_order',{'order_id':order_id},function(data){
-        alert(data.code);
         if(data.code == 200){
-            message(data.code);
+            message("订单已完成");
             //TODO
             /*在此处可以加入声音提示信息*/
+            location.reload();
         }else{
             message('订单删除失败');
         }
