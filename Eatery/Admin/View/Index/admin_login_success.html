@@ -22,19 +22,7 @@
 			<!-- 内容 -->
 			<div data-role="content">
 	    		<!-- 当前的点餐列表 -->
-				<ul data-role="listview" data-inset="true" id="order_list">
-                    <volist name="order" id="vo">
-					<li order_id="{$key}" id="order_id">
-						<a href="javascript:;">
-							<h7>订单号:{$key}</h7>
-                            <volist name="vo" id="v" key="k">
-                                <p>菜名：{$v.menu_name} 单价：{$v.price}元/份 数量：{$v.num}份</p>
-                             </volist>
-						</a>
-						<a data-icon="delete" href="javascript:complete_order({$key});"></a>
-					</li>
-                    </volist>
-				</ul>
+				<ul data-role="listview" data-inset="true" id="order_list"></ul>
 	  		</div>
 	  
 				<div data-role="footer" data-theme="e" data-position='fixed' data-fullscreen="true">

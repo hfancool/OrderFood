@@ -1,5 +1,7 @@
 /*点击菜单列表时触发事件*/
 $(function(){
+    /*当页面加载时检查订单*/
+    check_order();
     var time = 10000;
     window.setInterval('check_order()',time);
     /*文件上传框样式*/
@@ -68,19 +70,13 @@ function check_order(){
     });
 }
 /*订单完成时点击删除订单时将memcached 中的数据删除*/
-function complete_order(id){
-    var order_id = '';
-    if($('#order_id') != undefined && $('#order_id').attr('order_id') !=undefined){
-        order_id = $('#order_id').attr('order_id');
-    }else{
-        order_id = id;
-    }
+function complete_order(order_id){
     $.get('./complete_order',{'order_id':order_id},function(data){
         if(data.code == 200){
             message("订单已完成");
             //TODO
             /*在此处可以加入声音提示信息*/
-            location.reload();
+            check_order();
         }else{
             message('订单删除失败');
         }

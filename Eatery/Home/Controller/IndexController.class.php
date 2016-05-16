@@ -164,7 +164,7 @@ class IndexController extends Controller {
             $order_info = serialize($temp);
             if(Memcached::set($ssid,$order_info)){
                 $data['code']  = '200';
-                $data['id']    = $id;
+                $data['order_id']    = $id;
                 $data['message']    = "下单成功";
                 $this->ajaxReturn($data);
             }else{

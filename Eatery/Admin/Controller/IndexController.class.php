@@ -40,8 +40,8 @@ class IndexController extends Controller {
     public function admin_login_success(){
         /*检测用户是否登录*/
         Help::checkLogin();
-        $order_info = $this->show_order();
-        $this->assign('order',$order_info);
+//        $order_info = $this->show_order();
+//        $this->assign('order',$order_info);
     	$this->display('admin_login_success');
     }
     /**

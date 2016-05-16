@@ -22,15 +22,7 @@
 			<!-- 内容 -->
 			<div data-role="content">
 	    		<!-- 当前的点餐列表 -->
-				<ul data-role="listview" data-inset="true" id="order_list">
-                    <?php if(is_array($order)): $i = 0; $__LIST__ = $order;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li order_id="<?php echo ($key); ?>" id="order_id">
-						<a href="javascript:;">
-							<h7>订单号:<?php echo ($key); ?></h7>
-                            <?php if(is_array($vo)): $k = 0; $__LIST__ = $vo;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($k % 2 );++$k;?><p>菜名：<?php echo ($v["menu_name"]); ?> 单价：<?php echo ($v["price"]); ?>元/份 数量：<?php echo ($v["num"]); ?>份</p><?php endforeach; endif; else: echo "" ;endif; ?>
-						</a>
-						<a data-icon="delete" href="javascript:complete_order(<?php echo ($key); ?>);"></a>
-					</li><?php endforeach; endif; else: echo "" ;endif; ?>
-				</ul>
+				<ul data-role="listview" data-inset="true" id="order_list"></ul>
 	  		</div>
 	  
 				<div data-role="footer" data-theme="e" data-position='fixed' data-fullscreen="true">

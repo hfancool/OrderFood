@@ -57,6 +57,26 @@ function remove_category(menu_id,num){
 /*处理订单*/
 function order(){
     $.get('./order_food', function (data) {
-        alert(data.code);
+        if(data.code == 200){
+            /*如果下单成功，则将购物车中的物品清空*/
+            $.get("./clean_category");
+            //window.history.back();;
+            message("下单成功，订单号："+data.order_id,10000);
+            var order_pre_id = '';
+            if($.cookie('order_id') != undefined){
+                order_pre_id=$.cookie('order_id');
+            }
+            $.cookie('order_id',order_pre_id+' |  '+data.order_id,{
+                expires:1,
+                path:'/'
+            });
+            if($.cookie('order_id') != undefined){
+                $('#complate_order_id').html("已完成订单号:\r\n"+ $.cookie('order_id'));
+            }else{
+                $('#complate_order_id').html("暂无订单");
+            }
+        }else{
+            message(data.message);
+        }
     })
 }

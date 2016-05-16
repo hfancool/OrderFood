@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
     <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jquery/jquery.cookie.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/home/order.js"></script>
     <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
     <script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
     <title>当前点餐</title>
@@ -35,7 +37,17 @@
         </ul>
     </div>
     <!-- 尾部,添加菜单 -->
-    <div data-role="footer" data-position="fixed" style="display: none" data-fullscreen="true"></div>
+    <div data-role="footer" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a id="complate_order_id" href="javascript:;" data-role="button"  data-ajax="false"  style="font-size: 15px;">
+                        已完成订单号：134343
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 </body>
 </html>
