@@ -1,5 +1,22 @@
 $(function () {
-    $('#complate_order_id').html("已完成订单号:"+ $.cookie('order_id'));
+    if($.cookie('order_id') != undefined){
+        $('#complate_order_id').html("已完成订单号:"+ $.cookie('order_id'));
+    }else{
+        $('#complate_order_id').html("暂无订单");
+    }
+    /*当用户进入到购物车时，进行判断*/
+    //alert($('#category_info li').html());
+    if($('#category_info li').html() == undefined || !$('#category_info li').html()){/*则表示购物车中没有订单*/
+        var html='';
+        html += "<li class='ui-li-has-alt ui-first-child'>";
+        html += "<a href='javascript:;' class='ui-btn'>";
+        html += "<h7>购物车空空如也 >-<</h7>";
+        html += " </a>";
+        html += " </li>";
+        $('#category_info').html(html);
+        $('#buy').attr({href:'javascript:history.back();'});
+        $('#buy').html('前往点餐');
+    }
 });
 /*加载显示框*/
 function showLoader(){

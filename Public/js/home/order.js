@@ -60,13 +60,20 @@ function order(){
         if(data.code == 200){
             /*如果下单成功，则将购物车中的物品清空*/
             $.get("./clean_category");
-            //window.history.back();;
-            message("下单成功，订单号："+data.order_id,10000);
+            message("下单成功，请等待...",1000);
+            /*清空购物车*/
+            var html='';
+                html += "<li class='ui-li-has-alt ui-first-child'>";
+                html += "<a href='javascript:;' class='ui-btn'>";
+                html += "<h7>下单成功，订单号："+data.order_id+"</h7>";
+                html += " </a>";
+                html += " </li>";
+            $('#category_info').html(html);
             var order_pre_id = '';
             if($.cookie('order_id') != undefined){
                 order_pre_id=$.cookie('order_id');
             }
-            $.cookie('order_id',order_pre_id+' |  '+data.order_id,{
+            $.cookie('order_id',order_pre_id+data.order_id+' |  ',{
                 expires:1,
                 path:'/'
             });
