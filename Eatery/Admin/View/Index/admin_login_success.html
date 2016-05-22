@@ -7,9 +7,11 @@
 		<script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
 		<script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
 		<script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
+        <script src='__PUBLIC__/tools/jquery/jquery.cookie.js'></script>
 		<script type="text/javascript" src="__PUBLIC__/js/admin/admin_login_success.js"></script>
 		<title>基本的页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	</head>
 	<body>
 	<!-- 第一个页面 也是首页面 当管理员进入时的默认页面-->
@@ -24,7 +26,10 @@
 	    		<!-- 当前的点餐列表 -->
 				<ul data-role="listview" data-inset="true" id="order_list"></ul>
 	  		</div>
-	  
+            <div >
+                <audio id="audio_order" src=""  autoplay="autoplay" >
+                </audio>
+            </div>
 				<div data-role="footer" data-theme="e" data-position='fixed' data-fullscreen="true">
 			     <div data-role="navbar">
 			      <ul>

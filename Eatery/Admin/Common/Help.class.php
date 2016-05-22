@@ -106,4 +106,68 @@ class Help{
         return false;
     }
 
+    /**
+     * 语音提示
+     * @param $order_num 要语音提示的订单号系信息
+     */
+    public static function remind_order_audio($order_num){
+        /*将阿拉伯数字转换为汉字数字*/
+        $count = strlen($order_num);
+        $str_order_num = array();
+        for($i=0;$i<$count;$i++){
+            switch(substr($order_num,$i,1)){
+                case 0 :$str_order_num[] = '零';
+                    break;
+                case 1 :$str_order_num[] = '一';
+                    break;
+                case 2 :$str_order_num[] = '二';
+                    break;
+                case 3 :$str_order_num[] = '三';
+                    break;
+                case 4 :$str_order_num[] = '四';
+                    break;
+                case 5 :$str_order_num[] = '五';
+                    break;
+                case 6 :$str_order_num[] = '六';
+                    break;
+                case 7 :$str_order_num[] = '七';
+                    break;
+                case 8 :$str_order_num[] = '八';
+                    break;
+                case 9 :$str_order_num[] = '九';
+                    break;
+            }
+        }
+        $str_order_num = implode('',$str_order_num);
+        $url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=2&text=请".$str_order_num."号到前台取餐";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        if(empty($output)){
+            return false;
+        }
+        /*将音频存储到文件中*/
+        $dir = DATA_PATH.'audios/'.session('username')."&".session('userId')."/";
+        if(!is_dir($dir)){
+            mkdir($dir,0777,true);
+        }
+        $file_name = md5(time()).".mp3";
+        $des_file = $dir.$file_name;
+        $destination = "/OrderFood/Eatery/Runtime/Data/audios/".session('username')."&".session('userId')."/".$file_name;
+
+        if(file_put_contents($des_file,$output)){
+            /*将该音频文件名存入到session中，并将其返回*/
+            $sess_audio_resouse = session('audio_resouse');
+            if($sess_audio_resouse){
+                unlink($sess_audio_resouse);
+                session('audio_resouse',null);
+            }
+            $sess_res = $dir.$file_name;
+            session('audio_resouse',$sess_res);
+            return $destination;
+        }
+    }
+
 }

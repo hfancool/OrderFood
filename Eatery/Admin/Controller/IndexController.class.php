@@ -100,8 +100,11 @@ class IndexController extends Controller {
         }
         $order_info = serialize($order);
         if(Memcached::set($ssid,$order_info)){
+            /*此处加入语音提示信息*/
+            $str_num = Help::remind_order_audio($order_id);
             $data['code']  = '200';
             $data['message']    = "删除成功";
+            $data['audio']    = $str_num;
             $this->ajaxReturn($data);
         }else{
             $data['code']  = '400';
@@ -185,6 +188,8 @@ class IndexController extends Controller {
         $this->display('tcode');
     }
     public function test(){
+        $str_num = Help::remind_order_audio(1111);
+        var_dump($str_num);exit;
         var_dump(Memcached::get('name'));
 //        $mem = new \Memcache();
 //        $mem->connect('127.0.0.1',11211);
