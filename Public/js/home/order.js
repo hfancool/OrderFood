@@ -12,10 +12,32 @@ $(function(){
         $("form").submit();
     });
     /*去下单按钮添加监听*/
-    $('#buy').click(function () {
-    //    TODO
-    });
+    //$('#go_buy').click(function () {
+    ////    TODO
+    //});
 })
+/*当用户点击下单按钮的时候触发该事件*/
+//function go_buy(){
+//    var menu_id     = $('#menu_id').val();
+//    var menuname    = $('#menuname').val();
+//    var price       = $('#price').val();
+//    var total_num   = $('#points').val();
+//    var image       = $('#image').attr('src');
+//    var data = 'menu_id='+menu_id+'&menuname='+menuname+'&price='+price+'&num='+total_num+'&image='+image;
+//    $.ajax({
+//        url : './category',
+//        type: 'POST',
+//        data: data,
+//        success:function(data){
+//            //alert(data);
+//            if(data == 1){
+//                message("宝贝已添加到购物车中!");
+//            }else{
+//                message("无法添加!");
+//            }
+//        }
+//    });
+//}
 /*当用户点击添加到购物车的时候*/
 function category(){
     /*通过ajax的方式将数据添加到购物车中*/
@@ -73,8 +95,11 @@ function order(){
             if($.cookie('order_id') != undefined){
                 order_pre_id=$.cookie('order_id');
             }
+            /*下单成功后，将订单在cookie中存储24分钟*/
+            var date = new Date();
+            date.setTime(date.getTime() + ( 24 * 60 * 1000));/*24分钟*/
             $.cookie('order_id',order_pre_id+data.order_id+' |  ',{
-                expires:1,
+                expires:date,
                 path:'/'
             });
             if($.cookie('order_id') != undefined){

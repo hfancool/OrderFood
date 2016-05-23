@@ -63,7 +63,8 @@ function check_order(){
                     html += " <p>菜名："+v.menu_name+" 单价："+v.price+"元/份 数量："+v.num+"份</p>";
                 })
                 html += " </a>";
-                html += " <a data-icon='delete' href='javascript:complete_order("+key+");'  class='ui-btn ui-btn-icon-notext ui-icon-delete'></a>";
+            /*bug 修复，当字符串首位为0的时候自动将该字符串转换为八进制的数字，容易出错*/
+                html += " <a data-icon='delete' href='javascript:complete_order("+key.replace(/\b(0+)/gi,"")+");'  class='ui-btn ui-btn-icon-notext ui-icon-delete'></a>";
                 html += " </li>";
         });
         $('#order_list').html(html);
@@ -74,11 +75,14 @@ function complete_order(order_id){
     $.get('./complete_order',{'order_id':order_id},function(data){
         if(data.code == 200){
             message("订单已完成");
-            //TODO
             /*在此处可以加入声音提示信息*/
+            $('#audio_order').attr({
+                src:data.audio
+            });
             check_order();
         }else{
             message('订单删除失败');
         }
     });
 }
+
