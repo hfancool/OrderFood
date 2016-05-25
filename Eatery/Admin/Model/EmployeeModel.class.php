@@ -12,9 +12,11 @@ class EmployeeModel extends Model{
     public function getList(){
         /*将雇员管理表中的数据查询出来*/
         $aid = session('userId');
-        $list = $this->table('think_employee e,think_level l')->
-                where('e.level_id = l.level_id and e.aid = '."$aid".'')->
-                field('e.*,l.level_name,l.salary')->select();
+        $condition['e.aid'] = intval($aid);
+//        $condition["FROM_UNIXTIME('Y%-m%',addtime)"] = date("Y-m",time());
+        $list = $this->alias('e')->field('e.*,l.level_name,l.salary,a.*')->join('think_level l ON e.level_id = l.level_id','LEFT')
+            ->join('think_attendence a ON e.id = a.eid','LEFT')
+            ->where($condition)->select();
         if($list){
             return $list;
         }else{

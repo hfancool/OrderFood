@@ -20,32 +20,14 @@
             <ul>
                 <li>
                     <a href="javascript:window.history.back();"data-ajax="false" data-role="button" class="ui-btn-left ui-btn-corners">Back</a>
-                    <a href="../Level/index"data-ajax="false" data-role="button" class="ui-btn-right ui-btn-corners">Level</a>
                 </li>
             </ul>
         </div>
-        <h1 style="font-style: italic;font-weight: bold;">人&nbsp;员&nbsp;管&nbsp;理</h1>
+        <h1 style="font-style: italic;font-weight: bold;">人&nbsp;员&nbsp;添&nbsp;加</h1>
     </div>
     <!-- 内容部分 -->
     <div data-role="content">
-        <div data-role="collapsible-set">
-            <!--遍历list-->
-            <volist name="list" id="vo" >
-                <div data-role="collapsible">
-                    <h4>{$vo.username}  {$vo.sex}  {$vo.age}岁 {$vo.birthday}</h4>
-                    <p>雇员等级：{$vo.level_name}</p>
-                    <p>基本薪资：{$vo.salary}元</p>
-                    <p>手机号：{$vo.tel_phone}</p>
-                    <p>病假：{$vo.sick_leave}天</p>
-                    <p>事假：{$vo.personal_leave}天</p>
-                    <p>旷工：{$vo.absent}次</p>
-                    <p>迟到：{$vo.come_late}次</p>
-                    <p>早退：{$vo.leave_early}次</p>
-                    <p>违规现象：{$vo.violation}</p>
-                    <p><input type="button" value="雇&nbsp;员&nbsp;考&nbsp;勤"> </p>
-                </div>
-            </volist>
-        </div>
+
     </div>
     <!--尾部、添加雇员-->
     <div data-role="footer" data-position="fixed" data-fullscreen="true">

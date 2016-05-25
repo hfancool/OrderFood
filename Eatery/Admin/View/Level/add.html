@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
+    <title>雇员等级添加</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        $(function () {
+            $('#level_id').focus();
+        })
+    </script>
+
+</head>
+<body>
+
+<!-- 人员管理页面 -->
+<div data-role="page" id="HumenManage">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:window.history.back();"data-ajax="false" data-role="button" class="ui-btn-left ui-btn-corners">Back</a>
+                </li>
+            </ul>
+        </div>
+        <h1 style="font-style: italic;font-weight: bold;">雇&nbsp;员&nbsp;等&nbsp;级</h1>
+    </div>
+    <!-- 内容部分 -->
+    <div data-role="content">
+        <div class="ui-field-contain">
+            <label for="level_id">等级ID：</label>
+            <input id="level_id" type="text" size="8" >
+        </div>
+        <div class="ui-field-contain">
+            <label for="level_name">等级名称：</label>
+            <input id="level_name" type="text" size="8" >
+        </div>
+        <div class="ui-field-contain">
+            <label for="salary">基本薪资：元/月</label>
+            <input id="salary" type="text" size="8" >
+        </div>
+    </div>
+    <!--尾部、添加雇员-->
+    <div data-role="footer" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:add_level();" data-role="button" data-ajax="false" style="font-size: 15px;">确定</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
