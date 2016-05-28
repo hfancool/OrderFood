@@ -9,6 +9,14 @@
 		<script type="text/javascript" src="__PUBLIC__/js/home/home_global.js"></script>
         <script src='__PUBLIC__/tools/jquery/jquery.cookie.js'></script>
 		<script type="text/javascript" src="__PUBLIC__/js/admin/admin_login_success.js"></script>
+        <script>
+            $(function () {
+                /*当页面加载时检查订单*/
+                check_order();
+                var time = 10000;
+                window.setInterval('check_order()',time);
+            })
+        </script>
 		<title>基本的页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,7 +42,7 @@
 			     <div data-role="navbar">
 			      <ul>
 			        <li><a  href="javascript:;" data-icon="home" class="newfoods ui-btn-active" data-ajax="false">当前订单</a></li>
-			        <li><a class="myinfo" href="./admin_my_info" data-icon="info">我的信息</a></li>
+			        <li><a class="myinfo" href="./admin_my_info" data-ajax="false" data-icon="info">我的信息</a></li>
 			      </ul>
 			    </div>   
 			  </div> 

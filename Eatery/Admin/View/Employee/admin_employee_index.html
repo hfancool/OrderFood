@@ -36,13 +36,14 @@
                     <p>雇员等级：{$vo.level_name}</p>
                     <p>基本薪资：{$vo.salary}元</p>
                     <p>手机号：{$vo.tel_phone}</p>
-                    <p>病假：{$vo.sick_leave}天</p>
-                    <p>事假：{$vo.personal_leave}天</p>
-                    <p>旷工：{$vo.absent}次</p>
-                    <p>迟到：{$vo.come_late}次</p>
-                    <p>早退：{$vo.leave_early}次</p>
-                    <p>违规现象：{$vo.violation}</p>
-                    <p><input type="button" value="雇&nbsp;员&nbsp;考&nbsp;勤"> </p>
+                    <p>
+                    <div data-role="navbar">
+                        <ul>
+                            <li id="btn1{$i}"><input type="button" value="考勤" onclick=""></li>
+                            <li id="btn2{$i}"><input type="button" value="删除" onclick="del_employee({$vo.id});"></li>
+                        </ul>
+                    </div>
+                    </p>
                 </div>
             </volist>
         </div>
@@ -52,7 +53,7 @@
         <div data-role="navbar">
             <ul>
                 <li>
-                    <a href="#" data-role="button" data-iconpos="notext" data-ajax="false" data-icon="plus" style="font-size: 15px;"></a>
+                    <a href="./add_employee" data-role="button" data-iconpos="notext" data-ajax="false" data-icon="plus" style="font-size: 15px;"></a>
                 </li>
             </ul>
         </div>

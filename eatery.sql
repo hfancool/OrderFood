@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.1.73-community)
-# Date: 2016-05-12 07:55:22
+# Date: 2016-05-28 16:50:56
 # Generator: MySQL-Front 5.3  (Build 4.120)
 
 /*!40101 SET NAMES utf8 */;
@@ -29,25 +29,81 @@ CREATE TABLE `think_admin_user` (
 # Data for table "think_admin_user"
 #
 
-INSERT INTO `think_admin_user` VALUES (1,'fanhang','111','陕西省宝鸡市岐山县枣林镇','ddd','ddd','dd','魏家凉皮','dd','dd','dd',NULL),(2,'admin','111','陕西省西安市雁塔区','dd','asdf','asdf','碗碗香','asdf','adff','asdf','N!OA');
+INSERT INTO `think_admin_user` VALUES (1,'fanhang','111','陕西省宝鸡市岐山县枣林镇','Public/Admin/tcode/8ab9c218c897aeb7c14e4bb3aae8dcc0.jpg','ddd','dd','魏家凉皮','dd','dd','dd','w*~6'),(2,'admin','111','陕西省西安市雁塔区','','asdf','asdf','碗碗香','asdf','adff','asdf','N!OA');
 
 #
-# Structure for table "think_manage_info"
+# Structure for table "think_attendence"
 #
 
-DROP TABLE IF EXISTS `think_manage_info`;
-CREATE TABLE `think_manage_info` (
-  `id` int(6) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `think_attendence`;
+CREATE TABLE `think_attendence` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `eid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '雇员id',
+  `sick_leave` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '病假',
+  `personal_leave` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '事假',
+  `absent` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '旷工',
+  `come_late` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '迟到',
+  `leave_early` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '早退',
+  `violation` varchar(255) NOT NULL DEFAULT '' COMMENT '违规现象',
+  `addtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '记录添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
-# Data for table "think_manage_info"
+# Data for table "think_attendence"
 #
 
-INSERT INTO `think_manage_info` VALUES (1,'fanhang','000');
+/*!40000 ALTER TABLE `think_attendence` DISABLE KEYS */;
+INSERT INTO `think_attendence` VALUES (1,1,2,1,0,4,5,'损坏公物',1464271876);
+/*!40000 ALTER TABLE `think_attendence` ENABLE KEYS */;
+
+#
+# Structure for table "think_employee"
+#
+
+DROP TABLE IF EXISTS `think_employee`;
+CREATE TABLE `think_employee` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户所属商家的id号',
+  `username` varchar(20) NOT NULL DEFAULT '' COMMENT '用户的姓名',
+  `sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '用户性别:0:保密，1:男2:女',
+  `age` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '用户的年龄',
+  `birthday` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '雇员的生日',
+  `tel_phone` varchar(20) NOT NULL DEFAULT '' COMMENT '用户的手机号码',
+  `level_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户的等级id',
+  `addtime` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "think_employee"
+#
+
+/*!40000 ALTER TABLE `think_employee` DISABLE KEYS */;
+INSERT INTO `think_employee` VALUES (1,2,'张三',1,22,1,'192192913931',2,0),(2,1,'李四',1,33,1,'15091631716',3,0),(8,1,'小蜗牛',2,7,1241107200,'3238239823982',3,1464412704);
+/*!40000 ALTER TABLE `think_employee` ENABLE KEYS */;
+
+#
+# Structure for table "think_level"
+#
+
+DROP TABLE IF EXISTS `think_level`;
+CREATE TABLE `think_level` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '对应的商家id',
+  `level_id` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '用户的等级id',
+  `level_name` varchar(100) NOT NULL DEFAULT '' COMMENT '等级名称',
+  `salary` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '该等级对应的工资',
+  PRIMARY KEY (`id`,`level_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "think_level"
+#
+
+/*!40000 ALTER TABLE `think_level` DISABLE KEYS */;
+INSERT INTO `think_level` VALUES (1,1,2,'服务员',1200),(2,1,1,'传菜员',1100),(3,1,3,'配菜员',1300),(4,1,4,'采购员',2000),(5,1,5,'厨师',3500);
+/*!40000 ALTER TABLE `think_level` ENABLE KEYS */;
 
 #
 # Structure for table "think_mapping"
@@ -59,14 +115,14 @@ CREATE TABLE `think_mapping` (
   `ssid` varchar(512) NOT NULL DEFAULT '' COMMENT '加密字段',
   `aid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'admin主键id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mapping"
 #
 
 /*!40000 ALTER TABLE `think_mapping` DISABLE KEYS */;
-INSERT INTO `think_mapping` VALUES (1,'25e98b424e63300d77269a34bd30f1dd',1),(2,'1edf7cc45d8c32163d7ced7669f1fb10',2);
+INSERT INTO `think_mapping` VALUES (1,'47751809fff02eae5210d44eca94985e',1),(13,'e0e9ab6367dc349b29127231aa5be887',2);
 /*!40000 ALTER TABLE `think_mapping` ENABLE KEYS */;
 
 #
@@ -82,12 +138,12 @@ CREATE TABLE `think_menu` (
   `image` varchar(100) NOT NULL COMMENT '菜品图片',
   `price` double NOT NULL COMMENT '价格',
   PRIMARY KEY (`menu_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_menu"
 #
 
 /*!40000 ALTER TABLE `think_menu` DISABLE KEYS */;
-INSERT INTO `think_menu` VALUES (4,1,'水煮肉片','吃了能长肉','Admin/menu_image/573203d4ccf7d.png',20),(13,1,'山珍海味','养眼','Admin/menu_image/57327fc2f1adb.png',1000),(14,1,'好朋友','一模','Admin/menu_image/5733312f6d8d3.jpg',33),(16,1,'就是','你','Admin/menu_image/5733319237c14.jpg',0),(17,1,'osmund','哦搜狗','Admin/menu_image/573331be74acf.jpg',5546),(18,1,'你去听','个咯手机吧','Admin/menu_image/5733326217806.jpg',668),(19,2,'asdf ','afdfadf','Admin/menu_image/573348fd19f14.png',22);
+INSERT INTO `think_menu` VALUES (19,2,'asdf ','afdfadf','Admin/menu_image/573348fd19f14.png',22),(22,2,'洋槐花','绿色又健康','Admin/menu_image/573893c5d3d69.jpg',20),(23,1,'水煮肉片','辣','Admin/menu_image/574305135f661.png',22),(24,1,'麻婆豆腐','好吃','Admin/menu_image/5743052c29ca2.png',15),(25,1,'抄手','好吃','Admin/menu_image/5743067ee561a.png',15),(26,1,'蕨根粉','好吃','Admin/menu_image/574306af2c052.png',12),(27,1,'红烧排骨','油大肉多','Admin/menu_image/574306f3e7fdf.png',25),(28,1,'夫妻肺片','好吃','Admin/menu_image/5743091ab97bf.png',22),(29,1,'鱼香肉丝','好吃','Admin/menu_image/57430d8cc2c8c.png',18);
 /*!40000 ALTER TABLE `think_menu` ENABLE KEYS */;

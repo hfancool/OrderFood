@@ -1,9 +1,5 @@
 /*点击菜单列表时触发事件*/
 $(function(){
-    /*当页面加载时检查订单*/
-    check_order();
-    var time = 10000;
-    window.setInterval('check_order()',time);
     /*文件上传框样式*/
     $(".file").on("change","input[type='file']",function(){
         var filePath=$(this).val();
@@ -20,6 +16,25 @@ $(function(){
     });
 
 })
+/*信息提示*/
+function message(message,new_time){
+    var time = 1000;/*提示信息消失时间*/
+    if(new_time != undefined){
+        time = new_time;
+    }
+    $.mobile.loading('show', {
+        text: message, //加载器中显示的文字
+        textVisible: true, //是否显示文字
+        theme: 'a',        //加载器主题样式a-e
+        textonly: true,   //是否只显示文字
+        html: ""           //要显示的html内容，如图片等
+    });
+    this.setTimeout("hideLoader()",time);/*定时任务*/
+}
+/*加载页面时的影藏框*/
+function hideLoader(){
+    $.mobile.loading('hide');
+}
 function editMenu(){
     $("#menuname").focus();
     $("#btn_edit").css({display:"none"});
@@ -53,7 +68,7 @@ function removeMenu(menu_id){
 }
 /*检查当前的订单*/
 function check_order(){
-    $.get('./show_order', function (data) {
+    $.get('../Index/show_order', function (data) {
         var html='';
         $.each(data,function(key,val){
                 html += "<li class='ui-li-has-alt ui-first-child'>";
@@ -82,6 +97,108 @@ function complete_order(order_id){
             check_order();
         }else{
             message('订单删除失败');
+        }
+    });
+}
+/*用户等级编辑功能*/
+function level_edit(id,level_id){
+    $('#name'+id).attr({readonly:false});
+    $('#salary'+id).attr({readonly:false});
+    $('#name'+id).focus();
+    /*将编辑按钮改为确定按钮*/
+    $('#btn1'+id).html("<div class='ui-btn ui-input-btn ui-corner-all ui-shadow'>确定<input type='button' onclick='level_update("+id+","+level_id+");' value='确定'></div>");
+}
+/*用户等级更新*/
+function level_update(id,level_id){
+    /*获取更新后表单中的值*/
+    var level_name = $('#name'+id).val();
+    var salary     = $('#salary'+id).val();
+    /*通过ajax的方式修改level表中的数据*/
+    $.get('./edit_level',{'level_name':level_name,'salary':salary,'level_id':level_id}, function (data) {
+        if(data.code == 200){
+            message('更新成功');
+            $('#name'+id).attr({readonly:true});
+            $('#salary'+id).attr({readonly:true});
+            $('#btn1'+id).html("<div class='ui-btn ui-input-btn ui-corner-all ui-shadow'>编辑<input type='button' onclick='level_edit("+id+","+level_id+");' value='编辑'></div>");
+        }else{
+            alert(data.message);
+        }
+    })
+}
+/*删除该用户等级*/
+function del_level(level_id){
+    if(!confirm('您将要删除该条记录，确认该操作吗')){
+        return;
+    }
+    $.get('./del_level',{'level_id':level_id},function(data){
+        if(data.code == 200){
+            message('操作成功');
+            window.location.reload();
+        }else{
+            message('操作失败');
+        }
+    });
+}
+/*添加用户等级*/
+function add_level(){
+    var level_id   = $('#level_id').val();
+    var level_name = $('#level_name').val();
+    var salary     = $('#salary').val();
+    if(level_id == ''){
+        message('用户等级不能为空');
+        return ;
+    }
+    if(level_name == ''){
+        message('等级名称不能为空');
+        return;
+    }
+    if(salary == ''){
+        message('基本薪资不能为空');
+        return;
+    }
+
+    /*将新建等级提交*/
+    $.get('./insert',{'level_id':level_id,'level_name':level_name,'salary':salary}, function (data) {
+        if(data.code == 400){
+            alert(data.message)
+            message(data.message);
+        }else if(data.code ==200){
+            message('添加成功');
+            window.location.href="./index";
+        }
+    });
+}
+/*添加用户*/
+function add_employee(){
+    var level_id = $('#level_id').val();
+    var username = $('#username').val();
+    var sex      = $("input[type='radio']:checked").val();
+    var birthday = $('#birthday').val();
+    var mobile   = $('#mobile').val();
+    $.post('./insert',{'level_id':level_id,'username':username,'sex':sex,'birthday':birthday,'mobile':mobile}, function (data) {
+        if(data.code == 200){
+            message('雇员添加成功');
+            window.location.href='./index';
+        }else{
+            message('雇员添加失败');
+        }
+    });
+}
+/*删除雇员*/
+function del_employee(eid){
+    if(eid == '' || eid == undefined){
+        message('请选择要删除的雇员');
+        return;
+    }
+    if(!confirm('您将会删除该雇员')){
+        return;
+    }
+    $.get('./del_employee',{'eid':eid}, function (data) {
+        if(data.code == 200){
+            message('雇员删除成功');
+            window.location.reload();
+        }else{
+            message('雇员删除失败');
         }
     });
 }
