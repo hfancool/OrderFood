@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel=stylesheet href='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.css'>
+    <script src='__PUBLIC__/tools/jquery/jquery-1.7.2.min.js'></script>
+    <script src='__PUBLIC__/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
+    <title>基本的页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<!-- 雇员考勤 -->
+<div data-role="page" id="HumenManage">
+    <!-- 头信息 -->
+    <div data-role="header">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:window.history.back();"data-ajax="false" data-role="button" class="ui-btn-left ui-btn-corners">Back</a>
+                </li>
+            </ul>
+        </div>
+        <h1 style="font-style: italic;font-weight: bold;">雇&nbsp;员&nbsp;考&nbsp;勤</h1>
+    </div>
+    <!-- 内容部分 -->
+
+    <div data-role="content">
+        <div class="ui-field-contain">
+            <fieldset data-role="fieldcontain">
+                <label for="level_id">等级ID:</label>
+                <select name="level_id" id="level_id" data-native-menu="false">
+                    <option>雇员等级</option>
+                    <volist name="level_list" id="vo" >
+                        <option value="{$vo.level_id}">Level {$vo.level_id} {$vo.level_name} {$vo.salary} 元/月</option>
+                    </volist>
+                </select>
+            </fieldset>
+        </div>
+        <div class="ui-field-contain">
+            <label for="username">用户名：</label>
+            <input id="username" name="username" type="text" size="8" >
+        </div>
+        <div class="ui-field-contain">
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>性&nbsp;别：</legend>
+                <input type="radio" name="sex" id="map1" value="0" checked="checked" />
+                <label for="map1">保&nbsp;密</label>
+
+                <input type="radio" name="sex" id="map2" value="1" />
+                <label for="map2">&nbsp;男&nbsp;</label>
+
+                <input type="radio" name="sex" id="map3" value="2"  />
+                <label for="map3">&nbsp;女&nbsp;</label>
+            </fieldset>
+        </div>
+        <div class="ui-field-contain">
+            <label for="birthday">生&nbsp;日：</label>
+            <input id="birthday" name="birthday" type="date" size="8" >
+        </div>
+        <div class="ui-field-contain">
+            <label for="mobile">手机号：</label>
+            <input id="mobile" name="mobile" type="text" >
+        </div>
+    </div>
+    <!--尾部、添加雇员-->
+    <div data-role="footer" data-position="fixed" data-fullscreen="true">
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="javascript:add_employee();" data-role="submit" data-ajax="false" style="font-size: 15px;">确&nbsp;&nbsp;定</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
