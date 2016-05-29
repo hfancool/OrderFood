@@ -20,7 +20,7 @@ class Help{
         if(!is_numeric($code)){
             return json_encode($code);
         }
-        return json_encode([$code,$message,$data]);
+        return json_encode(array($code,$message,$data));
     }
 
     /**
@@ -60,7 +60,7 @@ class Help{
     public static function secrate ($value,$secrateKey=""){
         $secrateKey = empty($secrateKey) ? self::getRandsecrate() : $secrateKey;
         $secrateVal = md5(sprintf("%s@%s@%s",$secrateKey,$value,$secrateKey));
-        return ["secrateKey"=>$secrateKey,"secrateVal"=>$secrateVal];
+        return array("secrateKey"=>$secrateKey,"secrateVal"=>$secrateVal)   ;
     }
     /**
      * 二维码在线生成

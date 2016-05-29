@@ -39,7 +39,7 @@
                     <p>
                     <div data-role="navbar">
                         <ul>
-                            <li id="btn1{$i}"><input type="button" value="考勤" onclick=""></li>
+                            <li id="btn1{$i}"><input type="button" value="考勤" onclick="window.location.href='../Attendence/index?eid='+{$vo.id}"></li>
                             <li id="btn2{$i}"><input type="button" value="删除" onclick="del_employee({$vo.id});"></li>
                         </ul>
                     </div>

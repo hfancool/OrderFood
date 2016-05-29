@@ -8,7 +8,13 @@
     <script type="text/javascript" src="__PUBLIC__/js/admin/admin_global.js"></script>
     <title>基本的页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script type="text/javascript">
+        $(function(){
+            $('#violation').focus(function () {
+                $(this).val('');/*当光标定位到备注栏时，将栏中的数据清空*/
+            });
+        })
+    </script>
 </head>
 <body>
 
@@ -20,6 +26,7 @@
             <ul>
                 <li>
                     <a href="javascript:window.history.back();"data-ajax="false" data-role="button" class="ui-btn-left ui-btn-corners">Back</a>
+                    <a href="javascript:exportVio();"data-ajax="false" data-role="button" class="ui-btn-right ui-btn-corners">Export</a>
                 </li>
             </ul>
         </div>
@@ -28,41 +35,29 @@
     <!-- 内容部分 -->
 
     <div data-role="content">
-        <div class="ui-field-contain">
-            <fieldset data-role="fieldcontain">
-                <label for="level_id">等级ID:</label>
-                <select name="level_id" id="level_id" data-native-menu="false">
-                    <option>雇员等级</option>
-                    <volist name="level_list" id="vo" >
-                        <option value="{$vo.level_id}">Level {$vo.level_id} {$vo.level_name} {$vo.salary} 元/月</option>
-                    </volist>
-                </select>
-            </fieldset>
-        </div>
-        <div class="ui-field-contain">
-            <label for="username">用户名：</label>
-            <input id="username" name="username" type="text" size="8" >
-        </div>
-        <div class="ui-field-contain">
-            <fieldset data-role="controlgroup" data-type="horizontal">
-                <legend>性&nbsp;别：</legend>
-                <input type="radio" name="sex" id="map1" value="0" checked="checked" />
-                <label for="map1">保&nbsp;密</label>
+        <div class="ui-field-contain" style="margin: auto;">
+            <div align="center">考勤时间:{$time}</div>
+            <fieldset data-role="controlgroup" data-type="vertical" data-fullscreen="true">
+                <input type="radio" name="attendence" id="map1" value="1" checked="checked" />
+                <label for="map1">到勤</label>
 
-                <input type="radio" name="sex" id="map2" value="1" />
-                <label for="map2">&nbsp;男&nbsp;</label>
+                <input type="radio" name="attendence" id="map2" value="2" />
+                <label for="map2">病假</label>
 
-                <input type="radio" name="sex" id="map3" value="2"  />
-                <label for="map3">&nbsp;女&nbsp;</label>
+                <input type="radio" name="attendence" id="map3" value="3" />
+                <label for="map3">事假</label>
+
+                <input type="radio" name="attendence" id="map4" value="4"  />
+                <label for="map4">旷工</label>
+
+                <input type="radio" name="attendence" id="map5" value="5"  />
+                <label for="map5">迟到</label>
+
+                <input type="radio" name="attendence" id="map6" value="6"  />
+                <label for="map6">早退</label>
+
             </fieldset>
-        </div>
-        <div class="ui-field-contain">
-            <label for="birthday">生&nbsp;日：</label>
-            <input id="birthday" name="birthday" type="date" size="8" >
-        </div>
-        <div class="ui-field-contain">
-            <label for="mobile">手机号：</label>
-            <input id="mobile" name="mobile" type="text" >
+                <textarea name="violation" id="violation" >备注...</textarea>
         </div>
     </div>
     <!--尾部、添加雇员-->
@@ -70,7 +65,7 @@
         <div data-role="navbar">
             <ul>
                 <li>
-                    <a href="javascript:add_employee();" data-role="submit" data-ajax="false" style="font-size: 15px;">确&nbsp;&nbsp;定</a>
+                    <a href="javascript:violation('{$eid}');" data-role="submit" data-ajax="false" style="font-size: 15px;">确&nbsp;&nbsp;定</a>
                 </li>
             </ul>
         </div>

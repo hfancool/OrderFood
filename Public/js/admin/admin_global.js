@@ -203,3 +203,25 @@ function del_employee(eid){
     });
 }
 
+/*雇员考勤*/
+function violation(eid){
+    /*将雇员的考勤添加到数据库中，按月考勤*/
+    var att = $("input[name='attendence']:checked").val();/*员工的出勤状况*/
+    var vio = $("#violation").val();
+    $.get('./violation',{'eid':eid ,'att':att,'vio':vio}, function (data) {
+        if(data.code == 200){
+            message('考勤成功');
+            window.setTimeout('window.history.back()',1000);
+        }else{
+            message(data.message);
+        }
+    });
+}
+
+/*导出考勤记录*/
+function exportVio(){
+    alert(111);
+    $.get('',{}, function (data) {
+
+    });
+}
