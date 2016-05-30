@@ -43,6 +43,54 @@ class AttendenceModel extends Model{
      */
     public function getListByTime($time){
         $aid = intval(session('userId'));
-        $sql = "SELECT ";
+        /*按用户id 进行分组*/
+        $sql = "SELECT e.username  FROM think_attendence AS a".
+            " LEFT JOIN think_employee AS e ON a.eid = e.id".
+            " WHERE FROM_UNIXTIME(a.addtime,'%Y-%m') = '".date('Y-m',$time)."' ".
+            " AND a.aid=".intval($aid)." GROUP BY a.eid";
+        $res = $this->query($sql);
+        /*组装数组*/
+        $tmp = array(
+            'username'   =>'',
+            'attend'     =>0,
+            'sick'       =>0,
+            'personal'   =>0,
+            'absent'     =>0,
+            'be_late'    =>0,
+            'early_leave'=>0,
+            'remarks'    =>''
+        );
+        $users = array();
+        foreach($res as $key=>$val){
+            $users[$val['username']] = $tmp;
+        }
+//        var_dump($users);
+        $sql = "SELECT a.eid, e.username, a.att_type , a.remarks FROM think_attendence AS a".
+        " LEFT JOIN think_employee AS e ON a.eid = e.id".
+        " WHERE FROM_UNIXTIME(a.addtime,'%Y-%m') = '".date('Y-m',$time)."' ".
+        " AND a.aid=".intval($aid);
+        $res = $this->query($sql);
+        /*遍历结果集*/
+        foreach($res as $key => $val){
+            if(empty($users['username']['username'])){
+                $users[$val['username']]['username'] = $val['username'];
+                $users[$val['username']]['remarks']  .= $val['remarks'];
+            }
+            switch($val['att_type']){
+                case 1 : $users[$val['username']]['attend']+=1;
+                    break;
+                case 2 : $users[$val['username']]['sick']+=1;
+                    break;
+                case 3 :  $users[$val['username']]['personal']+=1;
+                    break;
+                case 4 :  $users[$val['username']]['absent']+=1;
+                    break;
+                case 5 :  $users[$val['username']]['be_late']+=1;
+                    break;
+                case 6 :  $users[$val['username']]['early_leave']+=1;
+                    break;
+            }
+        }
+        return $users;
     }
 }

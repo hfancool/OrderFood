@@ -155,6 +155,7 @@ class IndexController extends Controller {
                 $this->ajaxReturn($data);
             }else{
                 $data['code']  = '400';
+                $data['message']    = "下单失败";
                 $this->ajaxReturn($data);
             }
         }else{

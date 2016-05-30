@@ -217,11 +217,3 @@ function violation(eid){
         }
     });
 }
-
-/*导出考勤记录*/
-function exportVio(){
-    alert(111);
-    $.get('',{}, function (data) {
-
-    });
-}
