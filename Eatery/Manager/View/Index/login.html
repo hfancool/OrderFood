@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>后台登陆</title>
+        <link rel="stylesheet" href="__PUBLIC__/css/a_login_style.css" />
+        <!-- 加载jquery库 -->
+        <script type="text/javascript" src="__PUBLIC__/tools/jquery/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript">
+            var verify=false;
+            $(function () {
+                $('#get_code_img').click(function () {
+                    $('#verifyImg').attr({
+                        src:'./makeVerify'
+                    });
+                });
+                $('#Captcha').blur(function () {
+                    /*验证验证码是否正确*/
+                    $.get('./check_verify',{'captcha': $('#Captcha').val()}, function (data) {
+                        if(data.code == 400){
+                            verify = false;
+                        }else{
+                            verify = true;
+                        }
+                    });
+                })
+            })
+            /**
+             * 表单输入验证
+             */
+            function validate(){
+//                var verify = false;
+                if($('#username').val() =='' || $('#username').val() == undefined){
+                    window.alert('用户名不能为空');
+                    $('#username').focus();
+                    return false;
+                }
+                if($('#password').val() == '' || $('#password').val() == undefined){
+                    window.alert('请输入密码');
+                    $('#password').focus();
+                    return false;
+                }
+                if($('#Captcha').val() == '' || $('#Captcha').val() == undefined){
+                    window.alert('请输入验证码');
+                    $('#Captcha').focus();
+                    return false;
+                }
+                if(verify == false){
+                    window.alert('验证码错误');
+                    return false;
+                }
+                return verify;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="page-container">
+            <h1>后台管理登陆</h1>
+            <form action="./check_login" method="post" id="main_form" onsubmit="return validate();">
+                <input type="text" id="username" name="username" class="username" placeholder="请输入您的用户名！" />
+                <input type="password" id="password" name="password" class="password" placeholder="请输入您的用户密码！" />
+                <div>
+                    <input type="text" class="Captcha" id="Captcha" name="Captcha" style="height: 50px" placeholder="请输入验证码！" />
+                    <a href="javascript:;" id="get_code_img"><img id="verifyImg" src="./makeVerify" class="getcode" /></a>
+                </div>
+                <button type="submit"  class="submit_button">登录</button>
+                <div class="error"><span>+</span></div>
+            </form>
+        </div>
+    </body>
+</html>
