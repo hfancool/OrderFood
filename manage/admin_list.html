@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Manager</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/fullcalendar.css" />
+    <link rel="stylesheet" href="css/matrix-style.css" />
+    <link rel="stylesheet" href="css/matrix-media.css" />
+    <link rel="stylesheet" href="css/uniform.css" />
+    <link rel="stylesheet" href="css/select2.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jquery.gritter.css" />
+    <script src="js/excanvas.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+
+    <script src="js/jquery.ui.custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.flot.min.js"></script>
+    <script src="js/jquery.flot.resize.min.js"></script>
+    <script src="js/jquery.peity.min.js"></script>
+    <script src="js/fullcalendar.min.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/jquery.uniform.js"></script>
+    <!--<script src="js/matrix.tables.js"></script>-->
+    <script src="js/template.js"></script>
+    <!--<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>-->
+    <script type="text/javascript">
+        /*请求接口数据*/
+        var server = "http://"+location.host+"/OrderFood/index.php/Manager/"
+        $(function () {
+            /*请求列表*/
+            $.ajax({
+                type:'POST',
+                url : server+'Admin/get_adminList',
+                success: function (data) {
+                    var tmp='';
+
+                    if(data.code == 200){
+                        data = data.bd;
+                        for(var i=0;i<data.length;i++){
+                            tmp+= "<tr align='center'>"
+                            tmp+= "<td>"+data[i].id+"</td>"
+                            tmp+= "<td>"+data[i].storename+"</td>"
+                            tmp+= "<td>"+data[i].username+"</td>"
+                            tmp+= "<td>"+data[i].address+"</td>"
+                            tmp+= "<td>"+data[i].paytype+"</td>"
+                            tmp+= "<td>"+data[i].status+"</td>"
+                            tmp+= "<td>"+data[i].addtime+"</td>"
+                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a></td>"
+                            tmp+= "</tr>"
+                        }
+                        $('#adminList').html(tmp);
+                    }else if(data.code == 0){
+                        window.location.href='login.html';
+                    }else{
+                        alert(data.message);
+                    }
+                }
+            });
+        })
+
+    </script>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+    <h3 style="margin-left: 60px;padding-top: 30px;color: #d9edf7">Manager</h3>
+</div>
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse">
+    <ul class="nav">
+        <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome Manager</span><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:logout();"><i class="icon-key"></i> Log Out</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!--sidebar-menu-->
+<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+    <ul>
+        <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>商家管理</span> </a>
+            <ul>
+                <li><a href="admin_list.html">商家列表</a></li>
+                <li><a href="add_admin.html">新建商家</a></li>
+            </ul>
+        </li>
+        <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Manager管理</span> </a>
+            <ul>
+                <li><a href="manager_list.html">管理员列表</a></li>
+                <li><a href="add_manager.html">新建管理员</a></li>
+            </ul>
+        </li>
+        <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>关于我们</span> </a>
+            <ul>
+                <li><a href="join_us.html">加入我们</a></li>
+                <li><a href="user_rule.html">用户协议</a></li>
+                <li><a href="">注册条款</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!--sidebar-menu-->
+
+<!--main-container-part-->
+<div id="content">
+    <!--breadcrumbs-->
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+    </div>
+    <!--End-breadcrumbs-->
+
+    <div class="widget-box">
+        <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Data table</h5>
+        </div>
+        <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+                <thead>
+                    <tr>
+                        <th>商家id</th>
+                        <th>餐厅名称</th>
+                        <th>联系人</th>
+                        <th>餐厅地址</th>
+                        <th>支付方式</th>
+                        <th>状态</th>
+                        <th>注册时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="adminList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!--end-main-container-part-->
+
+    <!--Footer-part-->
+
+    <div class="row-fluid">
+        <div id="footer" class="span12"> 2016 &copy; @物联网1202班 范航所有</div>
+    </div>
+
+    <!--end-Footer-part-->
+
+
+    <!--<script src="js/matrix.dashboard.js"></script>-->
+    <!--<script src="js/jquery.gritter.min.js"></script>-->
+    <!--<script src="js/matrix.chat.js"></script>-->
+    <!--<script src="js/jquery.validate.js"></script>-->
+    <!--<script src="js/matrix.form_validation.js"></script>-->
+    <!--<script src="js/jquery.wizard.js"></script>-->
+    <!--<script src="js/jquery.uniform.js"></script>-->
+    <!--<script src="js/select2.min.js"></script>-->
+    <!--<script src="js/matrix.popover.js"></script>-->
+    <!--<script src="js/jquery.dataTables.min.js"></script>-->
+
+    <script type="text/javascript">
+        // This function is called from the pop-up menus to transfer to
+        // a different page. Ignore if the value returned is a null string:
+        function goPage (newURL) {
+
+            // if url is empty, skip the menu dividers and reset the menu selection to default
+            if (newURL != "") {
+
+                // if url is "-", it is this page -- reset the menu:
+                if (newURL == "-" ) {
+                    resetMenu();
+                }
+                // else, send page to designated URL
+                else {
+                    document.location.href = newURL;
+                }
+            }
+        }
+        /*改变商家的状态*/
+        function change(aid){
+            if(!confirm('确定该操作')){
+                return;
+            }
+            var url = server+'Admin/change_status';
+            $.ajax({
+                type : "GET",
+                data:{id:aid},
+                url:url,
+                success: function (data) {
+                    if(data.code == 200){
+                        get_list();
+                    }else{
+                        alert('状态修改失败');
+                    }
+                }
+            });
+
+        }
+        function get_list(){
+            $.ajax({
+                type:'POST',
+                url : server+'Admin/get_adminList',
+                success: function (data) {
+                    var tmp='';
+
+                    if(data.code == 200){
+                        data = data.bd;
+                        for(var i=0;i<data.length;i++){
+                            tmp+= "<tr align='center'>"
+                            tmp+= "<td>"+data[i].id+"</td>"
+                            tmp+= "<td>"+data[i].storename+"</td>"
+                            tmp+= "<td>"+data[i].username+"</td>"
+                            tmp+= "<td>"+data[i].address+"</td>"
+                            tmp+= "<td>"+data[i].paytype+"</td>"
+                            tmp+= "<td>"+data[i].status+"</td>"
+                            tmp+= "<td>"+data[i].addtime+"</td>"
+                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a></td>"
+                            tmp+= "</tr>"
+                        }
+                        $('#adminList').html(tmp);
+                    }else if(data.code == 0){
+                        alert('你还没有登录');
+                        window.location.href='login.html';
+                    }else{
+                        alert(data.message);
+                    }
+                }
+            });
+        }
+        function logout(){
+            $.get(server+'Index/logout', function (data) {
+                if(data.code == 200){
+                    window.location.href="login.html";
+                }else{
+                    alert('登出失败');
+                }
+            });
+        }
+        // resets the menu selection upon entry to this page:
+        function resetMenu() {
+            document.gomenu.selector.selectedIndex = 2;
+        }
+    </script>
+</body>
+</html>

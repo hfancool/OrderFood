@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <title>Admin</title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="css/matrix-login.css" />
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<!--<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/matrix.login.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var server = "http://"+location.host+"/OrderFood/index.php/Manager/"
+                /*验证码的加载*/
+                $('#verify').attr({
+                    src:server+"Index/makeVerify"
+                });
+                /*点击切换验证码*/
+                $('#verify').click(function () {
+                    $('#verify').attr({
+                        src:server+"Index/makeVerify"
+                    });
+                });
+                /*登录处理*/
+                var verify=false;
+                /*验证验证码输入是否正确*/
+                $('#captcha').blur(function () {
+                    /*验证验证码是否正确*/
+                    $.get(server+'Index/check_verify',{'captcha': $('#captcha').val()}, function (data) {
+                        if(data.code == 400){
+                            verify = false;
+                        }else{
+                            verify = true;
+                        }
+                    });
+                })
+                /*提交表单*/
+                $('#sub').click(function () {
+                    if($.trim($('#username').val()) == '' || $('#username').val() == undefined){
+                        window.alert('请输入用户名');
+                        $('#pwd').focus();
+                        return ;
+                    }
+                    if($.trim($('#pwd').val()) == '' || $('#pwd').val() == undefined){
+                        window.alert('请输入密码');
+                        $('#pwd').focus();
+                        return;
+                    }
+                    if(verify == false){
+                        window.alert('验证码错误');
+                        return false;
+                    }
+                    /*提交表单*/
+                    var postData={
+                        'username': $.trim($('#username').val()),
+                        'password': $.trim($('#pwd').val())
+                    };
+                    $.ajax({
+                        type:'POST',
+                        url :server+'Index/check_login',
+                        data:postData,
+                        success: function (data) {
+                            if(data.code == 200){/*登录成功*/
+                                window.location.href = 'index.html';
+                            }else{
+                                window.alert('身份验证失败');
+                                /*将密码输入框置空*/
+                                $('#pwd').val('');
+                                /*刷新验证码*/
+                                $('#verify').attr({
+                                    src:server+"Index/makeVerify"
+                                });
+                            }
+                        }
+                    });
+                });
+            })
+        </script>
+
+    </head>
+    <body>
+        <div id="loginbox">            
+            <!--<form id="loginform" class="form-vertical" action="http://themedesigner.in/demo/matrix-admin/index.html">-->
+				 <div class="control-group normal_text"> <h3>管理员系统</h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lg"><i class="icon-user"></i></span><input id="username" type="text" placeholder="Username" />
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span><input id="pwd" type="password" placeholder="Password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls" >
+                        <div class="main_input_box" >
+                            <img id="verify" src="" style="width:140px;height: 40px;">
+                            <input type="text" id="captcha" size="4" placeholder="Verify" style="width: 190px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <span class="pull-right"><a type="sub" id="sub" class="btn btn-success" /> Login</a></span>
+                </div>
+            <!--</form>-->
+        </div>
+    </body>
+
+</html>

@@ -8,17 +8,13 @@ class IndexController extends Controller {
     /*验证码生成句柄*/
     private $verify = '';
     /*验证码配置*/
-    protected $config = array(
-                    'fontSize'=>15,
-                    'length'  =>4
-                );
-
+//    protected $config = C('verify');
     /**
      * 控制器构造方法
      */
     public function __construct(){
         if($this->verify == ''){
-            $this->verify = new Verify($this->config);
+            $this->verify = new Verify(C('verify'));
         }
         parent::__construct();
     }
@@ -38,9 +34,13 @@ class IndexController extends Controller {
         $pwd      = I('post.password','',htmlentities);
         $manage = new ManagerUserModel();
         if($manage->validate($username,$pwd)){
-            $this->success('登录成功','./login_success');
+            $data['code']     =  200;
+            $data['message']  =  '登录成功';
+            $this->ajaxReturn($data);
         }else{
-            $this->error('登录信息验证失败');
+            $data['code']     =  400;
+            $data['message']  =  '登录信息验证失败';
+            $this->ajaxReturn($data);
         }
     }
 
@@ -56,7 +56,7 @@ class IndexController extends Controller {
     public function check_verify(){
         $captcha = I('get.captcha','',htmlentities);
         if(empty($this->verify)){
-            $this->verify = new Verify($this->config);
+            $this->verify = new Verify(C('verify'));
         }
         $res = $this->verify->check($captcha);
         if($res){
@@ -74,6 +74,20 @@ class IndexController extends Controller {
      */
     public function makeVerify(){
         $this->verify->entry();
+    }
+    /**
+     * 登出
+     */
+    public function logout(){
+        if(session_destroy()){
+            $data['code'] = 200;
+            $data['message'] = '登出成功';
+            $this->ajaxReturn($data);
+        }else{
+            $data['code'] = 400;
+            $data['message'] = '登出失败';
+            $this->ajaxReturn($data);
+        }
     }
 
 }

@@ -11,7 +11,7 @@
             $(function () {
                 $('#get_code_img').click(function () {
                     $('#verifyImg').attr({
-                        src:'./manager.php/Manager/Index/makeVerify'
+                        src:'./makeVerify'
                     });
                 });
                 $('#Captcha').blur(function () {
@@ -61,7 +61,7 @@
                 <input type="password" id="password" name="password" class="password" placeholder="请输入您的用户密码！" />
                 <div>
                     <input type="text" class="Captcha" id="Captcha" name="Captcha" style="height: 50px" placeholder="请输入验证码！" />
-                    <a href="javascript:;" id="get_code_img"><img id="verifyImg" src="./manager.php/Manager/Index/makeVerify" class="getcode" /></a>
+                    <a href="javascript:;" id="get_code_img"><img id="verifyImg" src="./makeVerify" class="getcode" /></a>
                 </div>
                 <button type="submit"  class="submit_button">登录</button>
                 <div class="error"><span>+</span></div>

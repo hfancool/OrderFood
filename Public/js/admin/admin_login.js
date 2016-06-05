@@ -23,7 +23,7 @@ $(function(){
                         window.location.href="./admin_login_success";
                     }
                     if(data.code == 400){
-                        window.alert(data.message);
+                        message(data.message);
                     }
                 }
 			});

@@ -6,6 +6,8 @@
 		<script src='/OrderFood/Public/tools/jquery/jquery-1.7.2.min.js'></script>
 		<script src='/OrderFood/Public/tools/jqueryMobile/jquery.mobile-1.4.5.js'></script>
 		<script type="text/javascript" src="/OrderFood/Public/js/admin/admin_login.js"></script>
+		<script type="text/javascript" src="/OrderFood/Public/js/admin/admin_global.js"></script>
+
 		<title>基本的页面</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 

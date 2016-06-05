@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 use Admin\Common\Help;
 use Admin\Model\AdminUserModel;
+use Admin\Model\MappingModel;
 use Admin\Model\MenuModel;
 use Common\Memcached;
 use Think\Controller;
@@ -23,7 +24,13 @@ class IndexController extends Controller {
     	$userName=I('post.userName','','htmlspecialchars');
     	$psw=I('post.psw','','htmlspecialchars');
         $user = new AdminUserModel();
-        if(!($user ->login_validate($userName,$psw))){
+        $res = $user ->login_validate($userName,$psw);
+        if($res == 1){
+            $data["code"]=400;
+            $data["message"]="您的账号已停用";
+            $this -> ajaxReturn($data);
+        }
+        if($res === 2){
             $data["code"]=400;
             $data["message"]="用户名或密码错误";
             $this -> ajaxReturn($data);
@@ -139,8 +146,8 @@ class IndexController extends Controller {
      * 将商家的信息进行加密并生成惟一的值
      */
     public function make_url(){
-        Help::checkLogin();
-        var_dump($_SESSION);
+//        Help::checkLogin();
+//        var_dump($_SESSION);
         $condition['id'] = intval(session('userId'));
         $user = new AdminUserModel();
         $res = $user->field('storename','secrate')->where($condition)->select();
@@ -152,11 +159,18 @@ class IndexController extends Controller {
         }else{
             $secrate = Help::secrate($value,$res[0]['secrate']);
         }
-        $sql = "INSERT INTO think_mapping (ssid,aid) VALUES ('".$secrate['secrateVal']."' , ".intval(session('userId'))." )";
-        if(M()->query($sql)){
-            echo 'success';
-        }
-        echo 'fail';
+        $map = new MappingModel();
+        $data['ssid']   =   $secrate['secrateVal'];
+        $data['aid']    =   intval(session('userId'));
+        $map->add($data);
+//        $sql = "INSERT INTO think_mapping (ssid,aid) VALUES ('".$secrate['secrateVal']."' , ".intval(session('userId'))." )";
+//        $sql = "INSERT INTO think_mapping (ssid,aid) VALUES ('".$mapping."' , 4 )";
+//        $Model = new Model();
+//        $map = $Model->query($sql);
+//        if($mapping){
+//            echo 'success';
+//        }
+//        echo 'fail';
     }
 
     /**
