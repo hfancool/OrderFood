@@ -1,5 +1,6 @@
 <?php
 namespace Manager\Controller;
+use Manager\Common\Help;
 use Manager\Model\ManagerUserModel;
 use Think\Controller;
 use Think\Verify;
@@ -33,6 +34,13 @@ class IndexController extends Controller {
         $username = I('post.username','',htmlentities);
         $pwd      = I('post.password','',htmlentities);
         $manage = new ManagerUserModel();
+        $condition['username'] = $username;
+        $status = $manage->where($condition)->getField('status');
+        if($status == 2){
+            $data['code']     =  400;
+            $data['message']  =  '您已被管理员停用';
+            $this->ajaxReturn($data);
+        }
         if($manage->validate($username,$pwd)){
             $data['code']     =  200;
             $data['message']  =  '登录成功';
@@ -76,6 +84,20 @@ class IndexController extends Controller {
         $this->verify->entry();
     }
     /**
+     * 检测管理员是否登录
+     */
+    public function is_login(){
+        if(Help::check_login()){
+            $data['code'] = 200;
+            $data['message'] = '用户已登录';
+            $this->ajaxReturn($data);
+        }else{
+            $data['code'] = -1;
+            $data['message'] = '用户未登录';
+            $this->ajaxReturn($data);
+        }
+    }
+    /**
      * 登出
      */
     public function logout(){
@@ -89,5 +111,29 @@ class IndexController extends Controller {
             $this->ajaxReturn($data);
         }
     }
+    /**
+     * 管理员权限检查
+     */
+    public function perm_check(){
+        $mana_user = new ManagerUserModel();
+        $mana_id = session('managerId');
+        if(empty($mana_id)){
+           return;
+        }
+        $condition['id'] = intval($mana_id);
+        $mana_action = $mana_user->where($condition)->getField('action');
+        /*接口返回当前的管理员的权限*/
 
+        if($mana_action == 'admin'){
+            $data['code']   =  200;
+            $data['action'] = 'admin';
+            $data['message']= '操作成功';
+            $this->ajaxReturn($data);
+        }else{
+            $data['code']    = 200;
+            $data['action']  ='user';
+            $data['message'] ='操作成功';
+            $this->ajaxReturn($data);
+        }
+    }
 }

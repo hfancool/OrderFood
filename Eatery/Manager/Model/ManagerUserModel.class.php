@@ -19,8 +19,8 @@ class ManagerUserModel extends Model{
         $secrate = Help::secrate($password,$res["secrate"]);/*对用户的密码进行加密*/
         if($secrate['secrateVal'] == $res["password"]){
             //将用户的登录信息写入到session文件中
-            session("userId",$res["id"]);
-            session("username",$res["username"]);
+            session("managerId",$res["id"]);
+            session("managername",$res["username"]);
             return true;
         }else{
             return false;
@@ -29,13 +29,15 @@ class ManagerUserModel extends Model{
     /**
      * 获取管理员列表
      */
-    public function get_list(){
-        $res = $this->field('username,birthday,mobile,email,idcard,addtime')->select();
+    public function get_list($page,$pageCount){
+        $offset = $pageCount * ($page-1);
+        $res = $this->field('id,username,birthday,mobile,status,email,idcard,addtime')->limit($offset,$pageCount)->select();
         $count = count($res);
         for($i=0;$i<$count;$i++){
 //            $res[$i]['sex'] = $res[$i]['sex'] == 1 ? '保密':($res[$i]['sex'] == 2 ? '男' : '女');
             $res[$i]['birthday'] = date('Y-m-d',$res[$i]['birthday']);
             $res[$i]['addtime']  = date('Y-m-d H:i:s',$res[$i]['addtime']);
+            $res[$i]['status']   = $res[$i]['status'] == 1 ? '启用':'停用';
         }
         return $res;
     }
@@ -44,6 +46,26 @@ class ManagerUserModel extends Model{
      */
     public function add_manager($data){
         if($this->add($data)){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 修改管理员状态
+     */
+    public function cs($id){
+//        $sql = "UPDATE think_admin_user SET status = CASE status WHEN 1 THEN 2 WHEN 2 THEN 1 END ".
+//                " where id =1";
+//        $res = $this->query($sql);
+        $condition['id'] = intval($id);
+        $status = $this->where($condition)->getField('status');
+        if($status == 1){
+            $data['status'] = 2;
+        }else{
+            $data['status'] = 1;
+        }
+        $res = $this->where($condition)->save($data);
+        if($res){
             return true;
         }
         return false;

@@ -15,7 +15,9 @@ class ManagerController extends Controller{
      */
     public function get_managerList(){
         $manage = new ManagerUserModel();
-        $list = $manage->get_list();
+        $page      = I('post.page',1);
+        $pageCount = I('post.pageCount',1);
+        $list = $manage->get_list($page,$pageCount);
         if($list){
             $data['code']  =  200;
             $data['bd']    = $list;
@@ -23,7 +25,7 @@ class ManagerController extends Controller{
             $this->ajaxReturn($data);
         }else{
             $data['code']  = 400;
-            $data['message'] = '获取列表失败';
+            $data['message'] = '暂无更多数据';
             $this->ajaxReturn($data);
         }
     }
@@ -46,6 +48,42 @@ class ManagerController extends Controller{
             header("Location:".$returnUrl);
         }else{
             echo 'error';
+        }
+    }
+    /**
+     * 修改状态
+     */
+    public function change_status(){
+        $manage_id = I('get.id');
+        $manage =new ManagerUserModel();
+        $res = $manage->cs($manage_id);
+        if($res){
+            $data['code']     =  200;
+            $data['message']  =  '成功';
+            $this->ajaxReturn($data);
+        }else{
+            $data['code'] = 400;
+            $data['message'] = '失败';
+            $this->ajaxReturn($data);
+        }
+    }
+    /**
+     * 删除系统后台管理员
+     */
+    public function del_manager(){
+        $mana_id = I('get.mana_id');
+        /*操作*/
+        $condition['id']   =  intval($mana_id);
+        $manage = new ManagerUserModel();
+        $res = $manage->where($condition)->delete();
+        if($res){
+            $data['code']    = 200;
+            $data['message'] = '删除成功';
+            $this->ajaxReturn($data);
+        }else{
+            $data['code']    = 400;
+            $data['message'] = '删除失败';
+            $this->ajaxReturn($data);
         }
     }
 }

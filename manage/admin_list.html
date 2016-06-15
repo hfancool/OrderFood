@@ -27,18 +27,105 @@
     <script src="js/jquery.uniform.js"></script>
     <!--<script src="js/matrix.tables.js"></script>-->
     <script src="js/template.js"></script>
+    <script src="js/manage_global.js"></script>
     <!--<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>-->
     <script type="text/javascript">
         /*请求接口数据*/
-        var server = "http://"+location.host+"/OrderFood/index.php/Manager/"
+        var server = "http://"+location.host+"/OrderFood/index.php/Manager/";
+        var page = 1;
+        var pageCount = 2;
         $(function () {
+            /*检测当前用户的身份*/
+            $.get(server+'Index/perm_check', function (res) {
+                if(res.action == 'admin'){
+                    $('#manage').show();
+                }
+            });
+//            var page = new  Page();
+//            Page.url = server+'Admin/get_adminList';
+            $('#next').click(function () {
+                page=page+1;
+                if(page >1){
+                    $('#prev').removeClass('disabled');
+                }
+                $.ajax({
+                    type:'POST',
+                    url : server+'Admin/get_adminList',
+                    data:{page:page,pageCount:pageCount},
+                    success: function (data) {
+                        var tmp='';
+
+                        if(data.code == 200){
+                            data = data.bd;
+                            for(var i=0;i<data.length;i++){
+                                tmp+= "<tr align='center'>"
+                                tmp+= "<td>"+data[i].id+"</td>"
+                                tmp+= "<td>"+data[i].storename+"</td>"
+                                tmp+= "<td>"+data[i].username+"</td>"
+                                tmp+= "<td>"+data[i].address+"</td>"
+                                tmp+= "<td>"+data[i].paytype+"</td>"
+                                tmp+= "<td>"+data[i].status+"</td>"
+                                tmp+= "<td>"+data[i].addtime+"</td>"
+                                tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a>"
+                                tmp+= "<a href='javascript:repwd("+data[i].id+");'> | 初始化密码</a></td>"
+                                tmp+= "</tr>"
+                            }
+                            $('#adminList').html(tmp);
+                        }else if(data.code == 0){
+                            window.location.href='login.html';
+                        }else{
+                            page = page -1;
+                            alert(data.message);
+                        }
+                    }
+                });
+            });
+            $('#prev').click(function () {
+                if(page < 2) {
+                    $('#prev').addClass('disabled');
+                    return
+                }else{
+                    $('#prev').removeClass('disabled');
+                }
+                page=page-1;
+                $.ajax({
+                    type:'POST',
+                    url : server+'Admin/get_adminList',
+                    data:{page:page,pageCount:pageCount},
+                    success: function (data) {
+                        var tmp='';
+
+                        if(data.code == 200){
+                            data = data.bd;
+                            for(var i=0;i<data.length;i++){
+                                tmp+= "<tr align='center'>"
+                                tmp+= "<td>"+data[i].id+"</td>"
+                                tmp+= "<td>"+data[i].storename+"</td>"
+                                tmp+= "<td>"+data[i].username+"</td>"
+                                tmp+= "<td>"+data[i].address+"</td>"
+                                tmp+= "<td>"+data[i].paytype+"</td>"
+                                tmp+= "<td>"+data[i].status+"</td>"
+                                tmp+= "<td>"+data[i].addtime+"</td>"
+                                tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a>"
+                                tmp+= "<a href='javascript:repwd("+data[i].id+");'> | 初始化密码</a></td>"
+                                tmp+= "</tr>"
+                            }
+                            $('#adminList').html(tmp);
+                        }else if(data.code == 0){
+                            window.location.href='login.html';
+                        }else{
+                            alert(data.message);
+                        }
+                    }
+                });
+            });
             /*请求列表*/
             $.ajax({
                 type:'POST',
                 url : server+'Admin/get_adminList',
+                data:{page:page,pageCount:pageCount},
                 success: function (data) {
                     var tmp='';
-
                     if(data.code == 200){
                         data = data.bd;
                         for(var i=0;i<data.length;i++){
@@ -50,7 +137,8 @@
                             tmp+= "<td>"+data[i].paytype+"</td>"
                             tmp+= "<td>"+data[i].status+"</td>"
                             tmp+= "<td>"+data[i].addtime+"</td>"
-                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a></td>"
+                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a>"
+                            tmp+= "<a href='javascript:repwd("+data[i].id+");'> | 初始化密码</a></td>"
                             tmp+= "</tr>"
                         }
                         $('#adminList').html(tmp);
@@ -62,7 +150,6 @@
                 }
             });
         })
-
     </script>
 </head>
 <body>
@@ -93,7 +180,7 @@
                 <li><a href="add_admin.html">新建商家</a></li>
             </ul>
         </li>
-        <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Manager管理</span> </a>
+        <li class="submenu"  id="manage" style="display: none"> <a href="#"><i class="icon icon-th-list"></i> <span>Manager管理</span> </a>
             <ul>
                 <li><a href="manager_list.html">管理员列表</a></li>
                 <li><a href="add_manager.html">新建管理员</a></li>
@@ -138,8 +225,15 @@
                 </thead>
                 <tbody id="adminList">
                 </tbody>
-            </table>
+                </table>
+                <div class="pagination alternate" style="float: right;margin-right: 10px">
+                    <ul>
+                        <li id="prev"><a  href="#" >上一页</a></li>
+                        <li id="next"><a href="#" >下一页</a></li>
+                    </ul>
+                </div>
         </div>
+
     </div>
 
 
@@ -207,6 +301,7 @@
             $.ajax({
                 type:'POST',
                 url : server+'Admin/get_adminList',
+                data:{page:page,pageCount:pageCount},
                 success: function (data) {
                     var tmp='';
 
@@ -221,7 +316,8 @@
                             tmp+= "<td>"+data[i].paytype+"</td>"
                             tmp+= "<td>"+data[i].status+"</td>"
                             tmp+= "<td>"+data[i].addtime+"</td>"
-                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a></td>"
+                            tmp+= "<td><a href='javascript:change("+data[i].id+");'>启用/停用</a>"
+                            tmp+= "<a href='javascript:repwd("+data[i].id+");'> | 初始化密码</a></td>"
                             tmp+= "</tr>"
                         }
                         $('#adminList').html(tmp);
@@ -246,6 +342,18 @@
         // resets the menu selection upon entry to this page:
         function resetMenu() {
             document.gomenu.selector.selectedIndex = 2;
+        }
+        function repwd(id){
+            if(!confirm('请确认初始化商家密码')){
+                return false;
+            }
+            $.post(server+'Admin/repwd',{admin_id:id}, function (res) {
+                if(res.code == 200){
+                    window.alert('初始化密码成功');
+                }else{
+                    window.alert(res.message);
+                }
+            });
         }
     </script>
 </body>

@@ -201,6 +201,34 @@ class IndexController extends Controller {
         $this->assign('tcode',$tcode);
         $this->display('tcode');
     }
+
+    /**
+     * 商家修改密码
+     */
+    public function chpwd(){
+        if(IS_AJAX){
+            $newpwd = I('post.newpwd','',htmlspecialchars);
+            if(empty($newpwd)){
+                $data['code']    = 400;
+                $data['message'] = '密码不能为空';
+                $this->ajaxReturn($data);
+            }else{
+                Help::checkLogin();
+                $admin = new AdminUserModel();
+                $res = $admin->chpwd($newpwd);
+                if($res){
+                    $data['code']    = 200;
+                    $data['message'] = '密码修改成功';
+                    $this->ajaxReturn($data);
+                }else{
+                    $data['code']    = 400;
+                    $data['message'] = '密码修改失败';
+                    $this->ajaxReturn($data);
+                }
+            }
+        }
+        $this->display('chpwd');
+    }
     public function test(){
         $str_num = Help::remind_order_audio(1111);
         var_dump($str_num);exit;

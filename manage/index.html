@@ -13,9 +13,27 @@
 <link rel="stylesheet" href="css/select2.css" />
 <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/jquery.gritter.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
 <!--<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>-->
     <script type="text/javascript">
         var server = "http://"+location.host+"/OrderFood/index.php/Manager/"
+        $(function () {
+            /*检测用户是否登录*/
+            $.get(server+'Index/is_login', function (res) {
+                if(res.code == -1){
+                    window.location.href="login.html";
+                }else{
+                    $('body').show();
+                }
+            });
+            /*检测当前用户的身份*/
+            $.get(server+'Index/perm_check', function (res) {
+                if(res.action == 'admin'){
+                    $('#manage').show();
+                }
+            });
+        })
         function logout(){
             $.get(server+'Index/logout', function (data) {
                 if(data.code == 200){
@@ -27,7 +45,7 @@
         }
     </script>
 </head>
-<body style="height: 520px">
+<body style="height: 520px;display: none">
 
 <!--Header-part-->
 <div id="header">
@@ -55,7 +73,7 @@
           <li><a href="add_admin.html">新建商家</a></li>
       </ul>
     </li>
-    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Manager管理</span> </a>
+    <li class="submenu" id="manage" style="display: none"> <a href="#"><i class="icon icon-th-list"></i> <span>Manager管理</span> </a>
       <ul>
           <li><a href="manager_list.html">管理员列表</a></li>
           <li><a href="add_manager.html">新建管理员</a></li>
@@ -89,8 +107,6 @@
 <!--end-Footer-part-->
 
 <script src="js/excanvas.min.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.ui.custom.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.flot.min.js"></script>
 <script src="js/jquery.flot.resize.min.js"></script>

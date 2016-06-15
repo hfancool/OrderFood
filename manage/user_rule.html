@@ -35,7 +35,7 @@
                 }
             });
             /*当用户查看该页面的时候加载加入我们数据*/
-            $.get(server+'Law/get_rule',{type:1}, function (res) {
+            $.get(server+'Law/get_rule',{type:3}, function (res) {
                 if(res.code == 200){
                     $('#join_us').val(res.info);
                 }else{
@@ -43,9 +43,9 @@
                 }
             });
             $('#submit').click(function () {
-                $.post(server+'Law/set_rule',{data:$('#join_us').val(),type:1}, function (res) {
+                $.post(server+'Law/set_rule',{data:$('#join_us').val(),type:3}, function (res) {
                     if(res.code == 200){
-                        window.alert('加入我们条款更新成功')
+                        window.alert('用户协议条款更新成功');
                         $('#join_us').val(res.info);
                     }else{
                         window.alert(res.message);
@@ -111,7 +111,7 @@
 
 <!--main-container-part-->
 <div align="center" id="content" style="color: #000000;font-size: xx-large;height: 80%;">
-    <h1 style="font-style: italic; font-weight: bolder;">加入我们</h1>
+    <h1 style="font-style: italic; font-weight: bolder;">用户协议</h1>
     <textarea style="width: 800px" rows="20" id="join_us">
     </textarea>
     <br>

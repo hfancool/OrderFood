@@ -60,8 +60,9 @@ class AdminUserModel extends Model{
     /**
      * 获取商家列表
      */
-    public function get_list(){
-        $res = $this->field("id,username,address,paytype,storename,storeinfo,addtime,status")->select();
+    public function get_list($page,$pageCount){
+        $offset = $pageCount * ($page-1);
+        $res = $this->field("id,username,address,paytype,storename,storeinfo,addtime,status")->limit($offset,$pageCount)->select();
         $count = count($res);
         for($i=0;$i<$count;$i++){
             $res[$i]['addtime'] = date("Y-m-d H:i:s",$res[$i]['addtime']);
@@ -97,5 +98,16 @@ class AdminUserModel extends Model{
             return true;
         }
         return false;
+    }
+    /**
+     * 商家修改密码
+     */
+    public function chpwd($pwd){
+        $secrate = Help::secrate($pwd);
+        $condition['id']  =  session('userId');
+        $data['password'] = $secrate['secrateVal'];
+        $data['secrate']  = $secrate['secrateKey'];
+        $res = $this->where($condition)->save($data);
+        return $res;
     }
 }

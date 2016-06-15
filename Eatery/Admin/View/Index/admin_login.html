@@ -23,11 +23,11 @@
 			<div data-role="content">
 					<div class="ui-field-contain">
 						<label for="userName">用户名：</label>
-						<input id="userName" type="text" name="userName">
+						<input id="userName" type="text" placeholder="请输入用户名" name="userName">
 					</div>
 					<div class="ui-field-contain">
 						<label for="psw">密码：</label>
-						<input id="psw" type="password" name="psw">
+						<input id="psw" type="password" placeholder="请输入密码" name="psw">
 					</div>
 					<div>
 						<input id="admin_login" type="button" value="登 &nbsp;&nbsp;录" style="background-color: black;">
